@@ -45,7 +45,7 @@ export default function Header() {
       const handleScroll = () => {
         const currentScrollY = window.scrollY;
         // 스크롤 내려가는 중이고 어느 정도 스크롤되었으면 헤더 숨김 (예: 100px 이상)
-        if (currentScrollY > lastScrollY && currentScrollY > 5) {
+        if (currentScrollY > lastScrollY && currentScrollY > 50) {
           setHeaderVisible(false);
         } else {
           setHeaderVisible(true);
