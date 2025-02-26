@@ -1,9 +1,10 @@
+// app/api/posts/route.ts
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
-import PostCard from "./components/PostCard";
+import { NextResponse } from "next/server";
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   summary: string;
@@ -11,7 +12,7 @@ interface Post {
   image: string;
   tags: string[];
   createdAt: string;
-  urlPath: string; // URL 경로에 사용할 값 (예: dev/react/newnote)
+  urlPath: string;
 }
 
 async function getPosts(): Promise<Post[]> {
@@ -31,10 +32,9 @@ async function getPosts(): Promise<Post[]> {
         const relativePath = path
           .relative(postsDir, fullPath)
           .replace(/\\/g, "/");
-        // 확장자 제거
         const urlPath = relativePath.replace(/\.md$/, "");
         posts.push({
-          id: data.id || urlPath, // 프론트매터에 id가 없으면 urlPath 사용
+          id: data.id || urlPath,
           title: data.title || "No title",
           summary:
             data.summary ||
@@ -45,7 +45,7 @@ async function getPosts(): Promise<Post[]> {
           image: data.image || "",
           tags: data.tags || [],
           createdAt: data.createdAt || "",
-          urlPath, // 실제 URL은 /posts/{urlPath} 형태
+          urlPath, // 실제 URL은 /posts/{urlPath} 형태 사용
         });
       }
     }
@@ -55,29 +55,7 @@ async function getPosts(): Promise<Post[]> {
   return await walk(postsDir);
 }
 
-export default async function Home() {
+export async function GET() {
   const posts = await getPosts();
-
-  return (
-    <main className="container mx-auto py-10 px-4 mt-16">
-      <h1 className="text-4xl font-bold mb-10">LazyDino Dev Log</h1>
-      <p className="text-lg text-muted-foreground mb-6">
-        내가 한걸 티내기 위해 만든 블로그
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
-          <PostCard
-            key={post.id}
-            id={post.urlPath} // 링크에 사용: 예를 들어 `/posts/dev/react/newnote`
-            title={post.title}
-            summary={post.summary}
-            content={post.content}
-            image={post.image}
-            tags={post.tags}
-            createdAt={post.createdAt}
-          />
-        ))}
-      </div>
-    </main>
-  );
+  return NextResponse.json({ posts });
 }
