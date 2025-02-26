@@ -11,41 +11,45 @@ export interface Post {
   image: string;
   tags: string[];
   createdAt: string;
+  modifiedAt: string;
   urlPath: string; // URL 경로에 사용할 값 (예: dev/react/newnote)
 }
 
 // 마크다운에서 순수 텍스트 추출 함수
 function extractPlainTextFromMarkdown(markdown: string): string {
   // 이미지 제거 (![대체텍스트](이미지주소))
-  let text = markdown.replace(/!\[[^\]]*\]\([^)]+\)/g, '');
-  
+  let text = markdown.replace(/!\[[^\]]*\]\([^)]+\)/g, "");
+
   // 헤딩 제거 (# 제목)
-  text = text.replace(/^#+\s+(.*)$/gm, '');
-  
+  text = text.replace(/^#+\s+(.*)$/gm, "");
+
   // 링크 제거 ([텍스트](링크) -> 텍스트)
-  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-  
+  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+
   // 코드 블록 제거 (```코드```)
-  text = text.replace(/```[\s\S]*?```/g, '');
-  
+  text = text.replace(/```[\s\S]*?```/g, "");
+
   // 인라인 코드 제거 (`코드`)
-  text = text.replace(/`([^`]+)`/g, '$1');
-  
+  text = text.replace(/`([^`]+)`/g, "$1");
+
   // 볼드/이탤릭 제거 (**텍스트** 또는 *텍스트*)
-  text = text.replace(/(\*\*|\*)(.*?)\1/g, '$2');
-  
+  text = text.replace(/(\*\*|\*)(.*?)\1/g, "$2");
+
   // 목록 기호 제거 (- 항목 또는 * 항목)
-  text = text.replace(/^[\s-*]+(.*)$/gm, '$1');
-  
+  text = text.replace(/^[\s-*]+(.*)$/gm, "$1");
+
   // 위키링크 제거 ([[링크|텍스트]] -> 텍스트)
-  text = text.replace(/\[\[([^|]+)(?:\|([^\]]+))?\]\]/g, (_, __, label) => label || '');
-  
+  text = text.replace(
+    /\[\[([^|]+)(?:\|([^\]]+))?\]\]/g,
+    (_, __, label) => label || "",
+  );
+
   // 여러 줄바꿈 하나로 통일
-  text = text.replace(/\n\s*\n/g, '\n');
-  
+  text = text.replace(/\n\s*\n/g, "\n");
+
   // 앞뒤 공백 제거
   text = text.trim();
-  
+
   return text;
 }
 
@@ -70,10 +74,10 @@ export async function getPosts(): Promise<Post[]> {
         const urlPath = relativePath.replace(/\.md$/, "");
         // 파일 이름을 제목으로 사용 (확장자 제거)
         const fileName = path.basename(fullPath, ".md");
-        
+
         // 순수 텍스트 추출
         const plainContent = extractPlainTextFromMarkdown(content);
-        
+
         posts.push({
           id: data.id || urlPath, // 프론트매터에 id가 없으면 urlPath 사용
           title: fileName, // 항상 파일 이름 사용
@@ -88,6 +92,9 @@ export async function getPosts(): Promise<Post[]> {
           tags: data.tags || [],
           createdAt: data.createdAt
             ? new Date(data.createdAt).toLocaleDateString()
+            : "",
+          modifiedAt: data.modifiedAt
+            ? new Date(data.modifiedAt).toLocaleDateString()
             : "",
           urlPath, // 실제 URL은 /posts/{urlPath} 형태
         });
@@ -130,13 +137,18 @@ export async function getPost(slug: string[]): Promise<Post | null> {
       title: postSlug, // 항상 파일 이름 사용
       summary:
         data.summary ||
-        (plainContent.length > 150 ? plainContent.substring(0, 150) + "..." : plainContent),
+        (plainContent.length > 150
+          ? plainContent.substring(0, 150) + "..."
+          : plainContent),
       content,
       plainContent,
       image: data.image || "",
       tags: data.tags || [],
       createdAt: data.createdAt
         ? new Date(data.createdAt).toLocaleDateString()
+        : "",
+      modifiedAt: data.modifiedAt
+        ? new Date(data.modifiedAt).toLocaleDateString()
         : "",
       urlPath,
     };
