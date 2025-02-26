@@ -69,7 +69,7 @@ const PostCard = ({
                       <>
                         {text.slice(0, exactIndex)}
                         <mark className="bg-yellow-200/30">
-                        {text.slice(exactIndex, exactIndex + title.length)}
+                          {text.slice(exactIndex, exactIndex + title.length)}
                         </mark>
                         {text.slice(exactIndex + title.length)}
                       </>
@@ -106,9 +106,7 @@ const PostCard = ({
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            Published on {typeof createdAt === 'object' && createdAt instanceof Date 
-              ? createdAt.toLocaleDateString() 
-              : createdAt}
+            Published on {new Date(createdAt).toLocaleDateString()}
           </p>
         </CardContent>
       </Card>
