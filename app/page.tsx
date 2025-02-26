@@ -1,59 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
-import matter from "gray-matter";
 import PostCard from "./components/PostCard";
-
-interface Post {
-  id: string;
-  title: string;
-  summary: string;
-  content: string;
-  image: string;
-  tags: string[];
-  createdAt: string;
-  urlPath: string; // URL 경로에 사용할 값 (예: dev/react/newnote)
-}
-
-async function getPosts(): Promise<Post[]> {
-  const postsDir = path.join(process.cwd(), "content", "posts");
-
-  async function walk(dir: string): Promise<Post[]> {
-    let posts: Post[] = [];
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        posts = posts.concat(await walk(fullPath));
-      } else if (entry.isFile() && entry.name.toLowerCase().endsWith(".md")) {
-        const fileContent = await fs.readFile(fullPath, "utf8");
-        const { data, content } = matter(fileContent);
-        // content/posts 폴더 기준의 상대 경로를 구합니다.
-        const relativePath = path
-          .relative(postsDir, fullPath)
-          .replace(/\\/g, "/");
-        // 확장자 제거
-        const urlPath = relativePath.replace(/\.md$/, "");
-        posts.push({
-          id: data.id || urlPath, // 프론트매터에 id가 없으면 urlPath 사용
-          title: data.title || "No title",
-          summary:
-            data.summary ||
-            (content.length > 100
-              ? content.substring(0, 100) + "..."
-              : content),
-          content,
-          image: data.image || "",
-          tags: data.tags || [],
-          createdAt: data.createdAt || "",
-          urlPath, // 실제 URL은 /posts/{urlPath} 형태
-        });
-      }
-    }
-    return posts;
-  }
-
-  return await walk(postsDir);
-}
+import { getPosts } from "@/lib/posts";
 
 export default async function Home() {
   const posts = await getPosts();
@@ -72,6 +18,7 @@ export default async function Home() {
             title={post.title}
             summary={post.summary}
             content={post.content}
+            plainContent={post.plainContent}
             image={post.image}
             tags={post.tags}
             createdAt={post.createdAt}

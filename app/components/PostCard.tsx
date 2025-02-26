@@ -8,6 +8,7 @@ interface PostCardProps {
   title: string;
   summary: string;
   content: string;
+  plainContent?: string; // 순수 텍스트 콘텐츠 추가
   image: string;
   tags: string[];
   createdAt: string;
@@ -18,6 +19,7 @@ const PostCard = ({
   title,
   summary,
   content,
+  plainContent,
   image,
   tags,
   createdAt,
@@ -57,7 +59,7 @@ const PostCard = ({
  p-4"
             >
               <span className="text-center text-sm">
-                {content.substring(0, 100)}...
+                {(plainContent || content).substring(0, 100)}...
               </span>
             </div>
           )}
@@ -70,7 +72,9 @@ const PostCard = ({
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            Published on {createdAt}
+            Published on {typeof createdAt === 'object' && createdAt instanceof Date 
+              ? createdAt.toLocaleDateString() 
+              : createdAt}
           </p>
         </CardContent>
       </Card>
