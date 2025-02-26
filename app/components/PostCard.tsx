@@ -59,12 +59,46 @@ const PostCard = ({
  p-4"
             >
               <span className="text-center text-sm">
-                {(plainContent || content).substring(0, 100)}...
+                {(() => {
+                  const text = (plainContent || content).substring(0, 100);
+                  const lowerText = text.toLowerCase();
+                  const lowerQuery = title.toLowerCase();
+                  const exactIndex = lowerText.indexOf(lowerQuery);
+                  if (exactIndex !== -1) {
+                    return (
+                      <>
+                        {text.slice(0, exactIndex)}
+                        <mark className="bg-yellow-200/30">
+                        {text.slice(exactIndex, exactIndex + title.length)}
+                        </mark>
+                        {text.slice(exactIndex + title.length)}
+                      </>
+                    );
+                  }
+                  return text;
+                })()}
+                ...
               </span>
             </div>
           )}
           <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-            {summary}
+            {(() => {
+              const lowerText = summary.toLowerCase();
+              const lowerQuery = title.toLowerCase();
+              const exactIndex = lowerText.indexOf(lowerQuery);
+              if (exactIndex !== -1) {
+                return (
+                  <>
+                    {summary.slice(0, exactIndex)}
+                    <mark className="bg-yellow-200/30">
+                      {summary.slice(exactIndex, exactIndex + title.length)}
+                    </mark>
+                    {summary.slice(exactIndex + title.length)}
+                  </>
+                );
+              }
+              return summary;
+            })()}
           </p>
           <div className="flex flex-wrap gap-2 mb-2">
             {tags.map((tag) => (

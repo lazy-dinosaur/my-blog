@@ -22,8 +22,11 @@ interface Post {
   title: string;
   summary: string;
   content: string;
+  plainContent: string; // 순수 텍스트 콘텐츠 추가
+  image: string;
   tags: string[];
-  // 필요시 다른 필드 추가
+  createdAt: string;
+  urlPath: string; // URL 경로에 사용할 값 (예: dev/react/newnote)
 }
 
 export default function Header() {
@@ -37,20 +40,22 @@ export default function Header() {
 
   // 컴포넌트가 마운트되면 로컬 스크롤 이벤트를 등록합니다.
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      // 스크롤 내려가는 중이고 어느 정도 스크롤되었으면 헤더 숨김 (예: 100px 이상)
-      if (currentScrollY > lastScrollY && currentScrollY > 5) {
-        setHeaderVisible(false);
-      } else {
-        setHeaderVisible(true);
-      }
-      lastScrollY = currentScrollY;
-    };
+    if (typeof window !== "undefined") {
+      let lastScrollY = window.scrollY;
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+        // 스크롤 내려가는 중이고 어느 정도 스크롤되었으면 헤더 숨김 (예: 100px 이상)
+        if (currentScrollY > lastScrollY && currentScrollY > 5) {
+          setHeaderVisible(false);
+        } else {
+          setHeaderVisible(true);
+        }
+        lastScrollY = currentScrollY;
+      };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, []);
 
   // 컴포넌트가 마운트될 때 실제 md 파일 데이터를 가져옵니다.
@@ -77,11 +82,11 @@ export default function Header() {
     const decomposedQuery = disassemble(cleanQuery);
     return posts.filter((post) => {
       const cleanTitle = post.title.toLowerCase().replace(/\s/g, "");
-      const cleanContent = post.content.toLowerCase().replace(/\s/g, "");
+      const cleanContent = post.plainContent.toLowerCase().replace(/\s/g, ""); // plainContent 사용
 
       const exactMatch =
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchQuery.toLowerCase());
+        post.plainContent.toLowerCase().includes(searchQuery.toLowerCase()); // plainContent 사용
 
       const decomposedTitle = disassemble(cleanTitle);
       const decomposedContent = disassemble(cleanContent);
@@ -180,7 +185,7 @@ export default function Header() {
                       key={post.id}
                       value={`${post.title} ${disassemble(post.title)} ${post.tags.join(" ")}`}
                       onSelect={() => {
-                        router.push(`/posts/${post.id}`);
+                        router.push(`/posts/${post.urlPath}`); // urlPath 사용
                         setOpen(false);
                       }}
                       className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
@@ -213,17 +218,60 @@ export default function Header() {
                           })()}
                         </h3>
                         <p className="text-sm text-muted-foreground line-clamp-1">
-                          {post.summary}
+                          {(() => {
+                            const lowerText = post.summary.toLowerCase();
+                            const lowerQuery = searchQuery.toLowerCase();
+                            const exactIndex = lowerText.indexOf(lowerQuery);
+                            if (exactIndex !== -1) {
+                              return (
+                                <>
+                                  {post.summary.slice(0, exactIndex)}
+                                  <mark className="bg-yellow-200/30">
+                                    {post.summary.slice(
+                                      exactIndex,
+                                      exactIndex + searchQuery.length,
+                                    )}
+                                  </mark>
+                                  {post.summary.slice(
+                                    exactIndex + searchQuery.length,
+                                  )}
+                                </>
+                              );
+                            }
+                            return post.summary;
+                          })()}
                         </p>
                         <div className="mt-1 flex gap-2">
-                          {post.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-xs px-2 py-1 bg-accent rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
+                          {post.tags.map((tag) => {
+                            const lowerTag = tag.toLowerCase();
+                            const lowerQuery = searchQuery.toLowerCase();
+                            const exactIndex = lowerTag.indexOf(lowerQuery);
+                            if (exactIndex !== -1) {
+                              return (
+                                <span
+                                  key={tag}
+                                  className="text-xs px-2 py-1 bg-accent rounded-full"
+                                >
+                                  {tag.slice(0, exactIndex)}
+                                  <mark className="bg-yellow-200/30">
+                                    {tag.slice(
+                                      exactIndex,
+                                      exactIndex + searchQuery.length,
+                                    )}
+                                  </mark>
+                                  {tag.slice(exactIndex + searchQuery.length)}
+                                </span>
+                              );
+                            }
+                            return (
+                              <span
+                                key={tag}
+                                className="text-xs px-2 py-1 bg-accent rounded-full"
+                              >
+                                {tag}
+                              </span>
+                            );
+                          })}
                         </div>
                       </div>
                     </CommandItem>
