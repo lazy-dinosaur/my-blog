@@ -86,7 +86,7 @@ process_note() {
 
 	# 링크 매핑 정보 저장 (원본 경로 -> publish 값)
 	PUBLISH_MAP["$relative_path"]="$safe_publish/$(basename "$md_file" .md)"
-	echo "매핑 추가: $relative_path -> ${PUBLISH_MAP[$relative_path]}"  # 디버깅 출력
+	echo "매핑 추가: $relative_path -> ${PUBLISH_MAP[$relative_path]}" # 디버깅 출력
 
 	# 이미지 파일 처리
 	grep -oE '!\[.*\]\([^)]+\)' "$md_file" | sed -E 's/.*\((.*)\)/\1/' |
@@ -95,11 +95,11 @@ process_note() {
 			if [[ "$img_path" =~ ^https?:// ]]; then
 				continue
 			fi
-			
+
 			img_name=$(basename "$img_path")
 			# 이미지 파일 찾기 (전체 볼트에서 검색)
 			find "$SOURCE_DIR" -type f -name "$img_name" -not -path "*/.obsidian/*" -not -path "*/_templates/*" -exec cp {} "$img_dir/" \; 2>/dev/null
-			
+
 			if [[ ! -f "$img_dir/$img_name" ]]; then
 				echo "⚠️ 이미지 파일을 찾을 수 없음: $img_name (from $(basename "$md_file"))"
 			fi
@@ -133,24 +133,69 @@ while IFS= read -r -d '' md_file; do
 	process_note "$md_file"
 done < <(find "$SOURCE_DIR" -type f -name "*.md" -not -path "*/.obsidian/*" -not -path "*/_templates/*" -print0)
 
-# 링크 매핑 파일 생성
-echo "📝 링크 매핑 파일 생성 중..."
-echo "연관 배열 크기: ${#PUBLISH_MAP[@]}"  # 디버깅 출력
-echo "{" > "$TMP_POST/link-map.json"
+# 링크 매핑 및 메타데이터 파일 생성
+echo "📝 링크 매핑 및 메타데이터 파일 생성 중..."
+echo "{" >"$TMP_POST/link-map.json"
+echo "[" >"$TMP_POST/meta-data.json"
+
+first_meta=true
 for orig_path in "${!PUBLISH_MAP[@]}"; do
-	echo "매핑: $orig_path -> ${PUBLISH_MAP[$orig_path]}"  # 디버깅 출력
-	echo "  \"$orig_path\": \"${PUBLISH_MAP[$orig_path]}\"," >> "$TMP_POST/link-map.json"
+	# 링크 매핑 추가
+	echo "  \"$orig_path\": \"${PUBLISH_MAP[$orig_path]}\"," >>"$TMP_POST/link-map.json"
+
+	# 메타데이터 추가
+	md_file="$SOURCE_DIR/$orig_path"
+	if [[ -f "$md_file" ]]; then
+		frontmatter=$(awk '/^---$/ {if(++c==1) next} c==1 && /^---$/ {exit} c==1' "$md_file")
+		title=$(basename "$md_file" .md)
+		summary=$(echo "$frontmatter" | yq eval '.summary // ""' -)
+		# tags 필드가 단일 값이면 리스트로 변환
+		# 더 안정적인 태그 처리
+		# 태그 처리 부분 수정
+		# 더 안전한 태그 처리
+		tags_raw=$(echo "$frontmatter" | yq eval '.tags' -)
+		if [[ "$tags_raw" == "null" || -z "$tags_raw" ]]; then
+			tags="[]"
+		else
+			# yq로 JSON으로 변환 시도
+			tags=$(echo "$tags_raw" | yq -o=json e '.' - 2>/dev/null || echo "[]")
+			# 단일 문자열인 경우 배열로 변환
+			if [[ "$tags" != \[* && "$tags" != "null" && ! -z "$tags" ]]; then
+				tags="[\"$tags\"]"
+			fi
+		fi
+		createdAt=$(echo "$frontmatter" | yq eval '.createdAt // ""' -)
+		modifiedAt=$(echo "$frontmatter" | yq eval '.modifiedAt // ""' -)
+
+		if [[ "$first_meta" == "true" ]]; then
+			first_meta=false
+		else
+			echo "," >>"$TMP_POST/meta-data.json"
+		fi
+
+		cat <<EOF >>"$TMP_POST/meta-data.json"
+        {
+            "urlPath": "${PUBLISH_MAP[$orig_path]}",
+            "title": "$title",
+            "summary": "$summary",                                                                                                              
+            "tags": $tags,
+            "createdAt": "$createdAt",
+            "modifiedAt": "$modifiedAt"
+        }
+EOF
+	fi
 done
 
-# 매핑이 없는 경우 빈 객체 생성 방지
+# 링크 매핑 파일 마무리
 if [ ${#PUBLISH_MAP[@]} -eq 0 ]; then
-    echo "  \"_empty\": \"true\"" >> "$TMP_POST/link-map.json"
+	echo "  \"_empty\": \"true\"" >>"$TMP_POST/link-map.json"
 else
-    # 마지막 쉼표 제거
-    sed -i '$ s/,$//' "$TMP_POST/link-map.json"
+	sed -i '$ s/,$//' "$TMP_POST/link-map.json"
 fi
+echo "}" >>"$TMP_POST/link-map.json"
 
-echo "}" >> "$TMP_POST/link-map.json"
+# 메타데이터 파일 마무리
+echo "]" >>"$TMP_POST/meta-data.json"
 
 echo "🔄 콘텐츠 동기화 중..."
 mkdir -p "$POST_BASE" "$IMG_BASE" "$(dirname "$LINK_MAP")"
