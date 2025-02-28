@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import Image from "next/image";
+import { Badge } from "./ui/badge";
 
 export interface MarkdownRendererProps {
   content: string;
@@ -139,7 +140,17 @@ export default function MarkdownRenderer({
   return (
     <div className="prose max-w-none">
       {/* 메타 정보 섹션 추가 */}
-      <div className="flex flex-col gap-2 mb-6 text-sm text-gray-600">
+      <div className="flex flex-row gap-2 mb-6 text-sm font-bold text-muted-foreground items-center justify-between">
+        {/* 태그 표시 */}
+        {tags && tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag, index) => (
+              <Badge key={index} className="px-3 py-1 rounded-full">
+                #{tag}
+              </Badge>
+            ))}
+          </div>
+        )}
         {/* 날짜 정보 */}
         {(published || modified) && (
           <div className="flex gap-3">
@@ -149,17 +160,6 @@ export default function MarkdownRenderer({
             {modified && (
               <span>Modified: {new Date(modified).toLocaleDateString()}</span>
             )}
-          </div>
-        )}
-
-        {/* 태그 표시 */}
-        {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag, index) => (
-              <span key={index} className="bg-gray-100 px-3 py-1 rounded-full">
-                #{tag}
-              </span>
-            ))}
           </div>
         )}
       </div>
