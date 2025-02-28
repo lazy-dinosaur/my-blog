@@ -5,7 +5,7 @@ export default async function Home() {
   const posts = await getPosts();
 
   return (
-    <main className="container mx-auto py-10 px-4 mt-16">
+    <main className="container mx-auto py-10 px-4">
       <h1 className="text-4xl font-bold mb-10">LazyDino Dev Log</h1>
       <p className="text-lg text-muted-foreground mb-6">
         내가 한걸 티내기 위해 만든 블로그

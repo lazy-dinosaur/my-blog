@@ -15,8 +15,8 @@ export default async function PostPage({ params }: PostPageProps) {
 
   if (!post) {
     return (
-      <main className="container mx-auto py-10 px-4">
-        <article className="text-center">
+      <main className="container mx-auto px-4 max-w-6xl">
+        <article className="mx-auto shadow-lg rounded-lg p-8">
           <h1 className="text-2xl font-bold mb-4">
             포스트를 찾을 수 없습니다.
           </h1>
@@ -32,8 +32,8 @@ export default async function PostPage({ params }: PostPageProps) {
   const publishPath = post.urlPath.split("/").slice(0, -1).join("/");
 
   return (
-    <main className="container mx-auto py-10 px-4 max-w-5xl">
-      <article className="mx-auto shadow-lg rounded-lg p-8 mt-8">
+    <main className="container mx-auto px-4 max-w-6xl">
+      <article className="mx-auto shadow-lg rounded-lg p-8">
         <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
         <div className="mb-6">
           <MarkdownRenderer
@@ -41,6 +41,7 @@ export default async function PostPage({ params }: PostPageProps) {
             publish={publishPath}
             published={post.createdAt}
             modified={post.modifiedAt}
+            tags={post.tags}
           />
         </div>
         <Link href="/" className="text-primary hover:underline">

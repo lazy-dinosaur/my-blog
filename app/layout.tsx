@@ -36,7 +36,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <div className="h-full">{children}</div>
+          <div className="mt-14 md:mt-16 ">{children}</div>
         </ThemeProvider>
       </body>
     </html>

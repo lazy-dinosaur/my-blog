@@ -102,7 +102,7 @@ const PostCard = ({
           </p>
           <div className="flex flex-wrap gap-2 mb-2">
             {tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
+              <Badge key={tag}>#{tag}</Badge>
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
