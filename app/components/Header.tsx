@@ -2,6 +2,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import { Sun, Moon } from "lucide-react";
 import {
   CommandDialog,
   CommandInput,
@@ -16,6 +19,7 @@ import Link from "next/link";
 import { Command } from "cmdk";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface Post {
   id: string;
@@ -124,18 +128,20 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const { theme, setTheme } = useTheme();
+
   return (
     // 헤더에 scroll 이벤트에 따른 translate-y 클래스를 동적으로 적용합니다.
     <header
       className={cn(
-        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-16 ${
+        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-14 md:h-16 ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         } z-20`,
       )}
     >
       <div className="container mx-auto flex items-center justify-between py-2 px-6">
         <Link className="flex items-center" href="/">
-          <span className="relative w-20 h-12 mr-2">
+          <span className="relative w-16 h-10 md:w-20 md:h-12 mr-2">
             <Image
               src="/lazydino-logo3.png"
               alt="lazydino.dev"
@@ -144,17 +150,28 @@ export default function Header() {
               height={80}
             />
           </span>
-          <span className="text-2xl font-bold">lazydino.dev</span>
+          <span className="text-xl md:text-2xl font-bold">lazydino.dev</span>
         </Link>
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            className="rounded-full"
+          >
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm          
+            className="flex items-center gap-1 md:gap-2 rounded-md border border-input bg-transparent px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm          
  text-muted-foreground hover:bg-accent transition-colors"
           >
-            Search posts...
+            <span className="hidden sm:inline">Search posts...</span>
+            <span className="sm:hidden">Search...</span>
             <kbd
-              className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted  
+              className="pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted  
  px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
             >
               <span className="text-xs">⌘</span>K
@@ -248,11 +265,11 @@ export default function Header() {
                             const exactIndex = lowerTag.indexOf(lowerQuery);
                             if (exactIndex !== -1) {
                               return (
-                                <span
+                                <Badge
                                   key={tag}
                                   className="text-xs px-2 py-1 bg-accent rounded-full"
                                 >
-                                  {tag.slice(0, exactIndex)}
+                                  #{tag.slice(0, exactIndex)}
                                   <mark className="bg-yellow-200/30">
                                     {tag.slice(
                                       exactIndex,
@@ -260,7 +277,7 @@ export default function Header() {
                                     )}
                                   </mark>
                                   {tag.slice(exactIndex + searchQuery.length)}
-                                </span>
+                                </Badge>
                               );
                             }
                             return (
