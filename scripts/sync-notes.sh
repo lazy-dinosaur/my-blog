@@ -98,7 +98,7 @@ process_note() {
 			
 			img_name=$(basename "$img_path")
 			# 이미지 파일 찾기 (전체 볼트에서 검색)
-			find "$SOURCE_DIR" -type f -name "$img_name" -not -path "*/.obsidian/*" -exec cp {} "$img_dir/" \; 2>/dev/null
+			find "$SOURCE_DIR" -type f -name "$img_name" -not -path "*/.obsidian/*" -not -path "*/_templates/*" -exec cp {} "$img_dir/" \; 2>/dev/null
 			
 			if [[ ! -f "$img_dir/$img_name" ]]; then
 				echo "⚠️ 이미지 파일을 찾을 수 없음: $img_name (from $(basename "$md_file"))"
@@ -131,7 +131,7 @@ echo "📄 게시 가능한 노트 검색 중..."
 # 모든 MD 파일 처리 (프로세스 치환 사용)
 while IFS= read -r -d '' md_file; do
 	process_note "$md_file"
-done < <(find "$SOURCE_DIR" -type f -name "*.md" -not -path "*/.obsidian/*" -print0)
+done < <(find "$SOURCE_DIR" -type f -name "*.md" -not -path "*/.obsidian/*" -not -path "*/_templates/*" -print0)
 
 # 링크 매핑 파일 생성
 echo "📝 링크 매핑 파일 생성 중..."
