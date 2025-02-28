@@ -113,8 +113,9 @@ export async function getPost(slug: string[]): Promise<Post | null> {
   }
 
   // 마지막 세그먼트를 파일명(postSlug)으로 사용하고, 나머지 세그먼트를 합쳐 publish 경로를 생성합니다.
-  const postSlug = slug[slug.length - 1];
-  const publish = slug.slice(0, -1).join("/");
+  const decodedSlug = slug.map(segment => decodeURIComponent(segment));
+  const postSlug = decodedSlug[decodedSlug.length - 1];
+  const publish = decodedSlug.slice(0, -1).join("/");
   // 동기화된 md 파일 경로: content/posts/{publish}/{postSlug}.md
   const filePath = path.join(
     process.cwd(),
@@ -128,6 +129,9 @@ export async function getPost(slug: string[]): Promise<Post | null> {
     const fileContent = await fs.readFile(filePath, "utf8");
     const { content, data } = matter(fileContent);
     const urlPath = `${publish}/${postSlug}`;
+    
+    // 파일 경로가 존재하는지 확인
+    await fs.access(filePath);
 
     // 순수 텍스트 추출
     const plainContent = extractPlainTextFromMarkdown(content);
