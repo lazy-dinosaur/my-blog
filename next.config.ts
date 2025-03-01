@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["shacdn.example.com"],
+    domains: ["user-images.githubusercontent.com"],
   },
   /* config options here */
 };

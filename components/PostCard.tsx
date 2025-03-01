@@ -4,18 +4,18 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 interface PostCardProps {
-  id: string;
+  urlPath: string;
   title: string;
   summary: string;
   content: string;
-  plainContent?: string; // 순수 텍스트 콘텐츠 추가
+  plainContent?: string;
   image: string;
   tags: string[];
   createdAt: string;
 }
 
 const PostCard = ({
-  id,
+  urlPath,
   title,
   summary,
   content,
@@ -31,13 +31,13 @@ const PostCard = ({
     !thumbnail.startsWith("http") &&
     !thumbnail.startsWith("/")
   ) {
-    const publishDir = id.split("/").slice(0, -1).join("/");
+    const publishDir = urlPath.split("/").slice(0, -1).join("/");
     const imageName = thumbnail.split("/").pop();
     thumbnail = `/postImg/${publishDir}/${imageName}`;
   }
 
   return (
-    <Link href={`/posts/${id}`}>
+    <Link href={`/posts/${urlPath}`}>
       <Card className="hover:shadow-lg transition-shadow duration-300 h-full">
         <CardHeader>
           <CardTitle className="text-xl">{title}</CardTitle>
@@ -54,51 +54,14 @@ const PostCard = ({
               />
             </div>
           ) : (
-            <div
-              className="h-48 w-full mb-4 flex items-center justify-center bg-muted text-muted-foreground rounded-md 
- p-4"
-            >
+            <div className="h-48 w-full mb-4 flex items-center justify-center bg-muted text-muted-foreground rounded-md p-4">
               <span className="text-center text-sm">
-                {(() => {
-                  const text = (plainContent || content).substring(0, 100);
-                  const lowerText = text.toLowerCase();
-                  const lowerQuery = title.toLowerCase();
-                  const exactIndex = lowerText.indexOf(lowerQuery);
-                  if (exactIndex !== -1) {
-                    return (
-                      <>
-                        {text.slice(0, exactIndex)}
-                        <mark className="bg-yellow-200/30">
-                          {text.slice(exactIndex, exactIndex + title.length)}
-                        </mark>
-                        {text.slice(exactIndex + title.length)}
-                      </>
-                    );
-                  }
-                  return text;
-                })()}
-                ...
+                {(plainContent || content).substring(0, 100)}...
               </span>
             </div>
           )}
           <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-            {(() => {
-              const lowerText = summary.toLowerCase();
-              const lowerQuery = title.toLowerCase();
-              const exactIndex = lowerText.indexOf(lowerQuery);
-              if (exactIndex !== -1) {
-                return (
-                  <>
-                    {summary.slice(0, exactIndex)}
-                    <mark className="bg-yellow-200/30">
-                      {summary.slice(exactIndex, exactIndex + title.length)}
-                    </mark>
-                    {summary.slice(exactIndex + title.length)}
-                  </>
-                );
-              }
-              return summary;
-            })()}
+            {summary}
           </p>
           <div className="flex flex-wrap gap-2 mb-2">
             {tags.map((tag) => (

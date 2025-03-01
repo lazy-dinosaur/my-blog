@@ -7,6 +7,7 @@ IMG_BASE="./public/postImg"
 TMP_POST=$(mktemp -d)
 TMP_IMG=$(mktemp -d)
 LINK_MAP="./public/link-map.json"
+META_DATA="./public/meta-data.json"
 
 cleanup() {
 	rm -rf "$TMP_POST" "$TMP_IMG"
@@ -40,27 +41,20 @@ get_publish_value() {
 # 노트 내 링크된 MD 파일 추출 (개선된 버전)
 extract_linked_files() {
 	local file="$1"
-	# 위키링크 [[파일주소/파일명.md|표시텍스트]] 형식 추출
-	# 더 정확한 추출을 위해 perl 사용
 	perl -ne 'while (/\[\[([^|\]]+\.md)(?:\|[^\]]+)?\]\]/g) { print "$1\n" }' "$file"
 }
 
-# 처리된 노트 목록 (중복 처리 방지)
 declare -A PROCESSED_FILES
-# 발행된 노트의 원본 경로와 publish 값 매핑
 declare -A PUBLISH_MAP
 
-# 노트 처리 함수 (재귀적으로 링크된 파일도 처리)
 process_note() {
 	local md_file="$1"
 	local relative_path="${md_file#$SOURCE_DIR/}"
 
-	# 이미 처리한 파일이면 스킵
 	if [[ -n "${PROCESSED_FILES[$relative_path]}" ]]; then
 		return
 	fi
 
-	# 처리 완료 표시
 	PROCESSED_FILES[$relative_path]=1
 
 	if ! validate_frontmatter "$md_file"; then
@@ -80,24 +74,19 @@ process_note() {
 
 	mkdir -p "$post_dir" "$img_dir"
 
-	# 노트 파일 복사
 	cp "$md_file" "$post_dir/$(basename "$md_file")"
 	echo "✅ 게시됨: $safe_publish/$(basename "$md_file")"
 
-	# 링크 매핑 정보 저장 (원본 경로 -> publish 값)
 	PUBLISH_MAP["$relative_path"]="$safe_publish/$(basename "$md_file" .md)"
-	echo "매핑 추가: $relative_path -> ${PUBLISH_MAP[$relative_path]}" # 디버깅 출력
+	echo "매핑 추가: $relative_path -> ${PUBLISH_MAP[$orig_path]}"
 
-	# 이미지 파일 처리
 	grep -oE '!\[.*\]\([^)]+\)' "$md_file" | sed -E 's/.*\((.*)\)/\1/' |
 		while IFS= read -r img_path; do
-			# 이미지 경로가 URL이면 스킵
 			if [[ "$img_path" =~ ^https?:// ]]; then
 				continue
 			fi
 
 			img_name=$(basename "$img_path")
-			# 이미지 파일 찾기 (전체 볼트에서 검색)
 			find "$SOURCE_DIR" -type f -name "$img_name" -not -path "*/.obsidian/*" -not -path "*/_templates/*" -exec cp {} "$img_dir/" \; 2>/dev/null
 
 			if [[ ! -f "$img_dir/$img_name" ]]; then
@@ -105,19 +94,14 @@ process_note() {
 			fi
 		done
 
-	# 링크된 MD 파일 처리
 	extract_linked_files "$md_file" | while IFS= read -r linked_file; do
-		# 상대 경로를 절대 경로로 변환
 		local linked_abs_path
 		if [[ "$linked_file" == /* ]]; then
-			# 절대 경로인 경우
 			linked_abs_path="$SOURCE_DIR$linked_file"
 		else
-			# 상대 경로인 경우
 			linked_abs_path="$(dirname "$md_file")/$linked_file"
 		fi
 
-		# 파일이 존재하면 재귀적으로 처리
 		if [[ -f "$linked_abs_path" ]]; then
 			process_note "$linked_abs_path"
 		else
@@ -128,38 +112,29 @@ process_note() {
 
 echo "📄 게시 가능한 노트 검색 중..."
 
-# 모든 MD 파일 처리 (프로세스 치환 사용)
 while IFS= read -r -d '' md_file; do
 	process_note "$md_file"
 done < <(find "$SOURCE_DIR" -type f -name "*.md" -not -path "*/.obsidian/*" -not -path "*/_templates/*" -print0)
 
-# 링크 매핑 및 메타데이터 파일 생성
 echo "📝 링크 매핑 및 메타데이터 파일 생성 중..."
 echo "{" >"$TMP_POST/link-map.json"
 echo "[" >"$TMP_POST/meta-data.json"
 
 first_meta=true
 for orig_path in "${!PUBLISH_MAP[@]}"; do
-	# 링크 매핑 추가
 	echo "  \"$orig_path\": \"${PUBLISH_MAP[$orig_path]}\"," >>"$TMP_POST/link-map.json"
 
-	# 메타데이터 추가
 	md_file="$SOURCE_DIR/$orig_path"
 	if [[ -f "$md_file" ]]; then
 		frontmatter=$(awk '/^---$/ {if(++c==1) next} c==1 && /^---$/ {exit} c==1' "$md_file")
 		title=$(basename "$md_file" .md)
 		summary=$(echo "$frontmatter" | yq eval '.summary // ""' -)
-		# tags 필드가 단일 값이면 리스트로 변환
-		# 더 안정적인 태그 처리
-		# 태그 처리 부분 수정
-		# 더 안전한 태그 처리
+		image=$(echo "$frontmatter" | yq eval '.image // ""' -)
 		tags_raw=$(echo "$frontmatter" | yq eval '.tags' -)
 		if [[ "$tags_raw" == "null" || -z "$tags_raw" ]]; then
 			tags="[]"
 		else
-			# yq로 JSON으로 변환 시도
 			tags=$(echo "$tags_raw" | yq -o=json e '.' - 2>/dev/null || echo "[]")
-			# 단일 문자열인 경우 배열로 변환
 			if [[ "$tags" != \[* && "$tags" != "null" && ! -z "$tags" ]]; then
 				tags="[\"$tags\"]"
 			fi
@@ -177,7 +152,8 @@ for orig_path in "${!PUBLISH_MAP[@]}"; do
         {
             "urlPath": "${PUBLISH_MAP[$orig_path]}",
             "title": "$title",
-            "summary": "$summary",                                                                                                              
+            "summary": "$summary",
+            "image": "$image",
             "tags": $tags,
             "createdAt": "$createdAt",
             "modifiedAt": "$modifiedAt"
@@ -186,7 +162,6 @@ EOF
 	fi
 done
 
-# 링크 매핑 파일 마무리
 if [ ${#PUBLISH_MAP[@]} -eq 0 ]; then
 	echo "  \"_empty\": \"true\"" >>"$TMP_POST/link-map.json"
 else
@@ -194,13 +169,15 @@ else
 fi
 echo "}" >>"$TMP_POST/link-map.json"
 
-# 메타데이터 파일 마무리
 echo "]" >>"$TMP_POST/meta-data.json"
 
 echo "🔄 콘텐츠 동기화 중..."
 mkdir -p "$POST_BASE" "$IMG_BASE" "$(dirname "$LINK_MAP")"
-rsync -a --delete "$TMP_POST/" "$POST_BASE/"
+
+rsync -a --delete --exclude='link-map.json' --exclude='meta-data.json' "$TMP_POST/" "$POST_BASE/"
 rsync -a --delete "$TMP_IMG/" "$IMG_BASE/"
+
 cp "$TMP_POST/link-map.json" "$LINK_MAP"
+cp "$TMP_POST/meta-data.json" "$META_DATA"
 
 echo "🚀 동기화 완료! 게시된 포스트: $(find "$POST_BASE" -name "*.md" | wc -l)개"

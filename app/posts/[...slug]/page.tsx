@@ -3,20 +3,20 @@ import Link from "next/link";
 import { getPost } from "@/lib/posts";
 
 interface PostPageProps {
-  params: {
-    slug: string[];
-  };
+  params: Promise<{ slug: string[] }>;
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  // params를 await하여 사용
-  const resolvedParams = await Promise.resolve(params);
-  const post = await getPost(resolvedParams.slug);
+  // URL 디코딩 및 경로 정규화
+  const { slug } = await params;
+  const decodedSlug = slug.map((s) => decodeURIComponent(s)).filter(Boolean); // 빈 문자열 제거
+
+  const post = await getPost(decodedSlug);
 
   if (!post) {
     return (
-      <main className="container mx-auto px-4 max-w-6xl">
-        <article className="mx-auto shadow-lg rounded-lg p-8">
+      <main className="container mx-auto max-w-screen-2xl">
+        <article className="mx-auto rounded-lg p-8">
           <h1 className="text-2xl font-bold mb-4">
             포스트를 찾을 수 없습니다.
           </h1>
@@ -28,13 +28,11 @@ export default async function PostPage({ params }: PostPageProps) {
     );
   }
 
-  // publish 경로 추출 (urlPath에서 마지막 세그먼트 제외)
   const publishPath = post.urlPath.split("/").slice(0, -1).join("/");
 
   return (
-    <main className="container mx-auto px-4 max-w-6xl">
-      <article className="mx-auto shadow-lg rounded-lg p-8">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+    <main className="container mx-auto max-w-screen-2xl">
+      <article className="rounded-lg p-8">
         <div className="mb-6">
           <MarkdownRenderer
             content={post.content}

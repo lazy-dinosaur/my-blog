@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -22,15 +23,14 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 interface Post {
-  id: string;
   title: string;
   summary: string;
   content: string;
-  plainContent: string; // 순수 텍스트 콘텐츠 추가
+  plainContent: string;
   image: string;
   tags: string[];
   createdAt: string;
-  urlPath: string; // URL 경로에 사용할 값 (예: dev/react/newnote)
+  urlPath: string;
 }
 
 export default function Header() {
@@ -38,31 +38,24 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
-
-  // 헤더 표시 여부 상태 (true이면 보이고, false이면 숨김)
   const [headerVisible, setHeaderVisible] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
-  // 컴포넌트가 마운트되면 로컬 스크롤 이벤트를 등록합니다.
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      let lastScrollY = window.scrollY;
-      const handleScroll = () => {
-        const currentScrollY = window.scrollY;
-        // 스크롤 내려가는 중이고 어느 정도 스크롤되었으면 헤더 숨김 (예: 100px 이상)
-        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-          setHeaderVisible(false);
-        } else {
-          setHeaderVisible(true);
-        }
-        lastScrollY = currentScrollY;
-      };
+    setIsClient(true);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 50) {
+        setHeaderVisible(currentScrollY < window.scrollY);
+      } else {
+        setHeaderVisible(true);
+      }
+    };
 
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 컴포넌트가 마운트될 때 실제 md 파일 데이터를 가져옵니다.
   useEffect(() => {
     async function fetchPosts() {
       try {
@@ -70,8 +63,6 @@ export default function Header() {
         if (res.ok) {
           const json = await res.json();
           setPosts(json.posts);
-        } else {
-          console.error("Failed to fetch posts:", res.statusText);
         }
       } catch (err) {
         console.error("Error fetching posts:", err);
@@ -80,17 +71,16 @@ export default function Header() {
     fetchPosts();
   }, []);
 
-  // 검색어에 따라 게시물을 필터링 합니다.
   const filteredPosts = useMemo(() => {
     const cleanQuery = searchQuery.toLowerCase().replace(/\s/g, "");
     const decomposedQuery = disassemble(cleanQuery);
     return posts.filter((post) => {
       const cleanTitle = post.title.toLowerCase().replace(/\s/g, "");
-      const cleanContent = post.plainContent.toLowerCase().replace(/\s/g, ""); // plainContent 사용
+      const cleanContent = post.plainContent.toLowerCase().replace(/\s/g, "");
 
       const exactMatch =
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.plainContent.toLowerCase().includes(searchQuery.toLowerCase()); // plainContent 사용
+        post.plainContent.toLowerCase().includes(searchQuery.toLowerCase());
 
       const decomposedTitle = disassemble(cleanTitle);
       const decomposedContent = disassemble(cleanContent);
@@ -130,16 +120,17 @@ export default function Header() {
 
   const { theme, setTheme } = useTheme();
 
+  if (!isClient) return null;
+
   return (
-    // 헤더에 scroll 이벤트에 따른 translate-y 클래스를 동적으로 적용합니다.
     <header
       className={cn(
-        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-14 md:h-16 ${
+        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-14 md:h-16 border-b flex items-center justify-center ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         } z-20`,
       )}
     >
-      <div className="container mx-auto flex items-center justify-between py-2 px-6">
+      <div className=" flex items-center justify-between py-2 px-6 w-full max-w-screen-2xl">
         <Link className="flex items-center" href="/">
           <span className="relative w-16 h-10 md:w-20 md:h-12 mr-2">
             <Image
@@ -165,15 +156,11 @@ export default function Header() {
           </Button>
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1 md:gap-2 rounded-md border border-input bg-transparent px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm          
- text-muted-foreground hover:bg-accent transition-colors"
+            className="flex items-center gap-1 md:gap-2 rounded-md border border-input bg-transparent px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm text-muted-foreground hover:bg-accent transition-colors"
           >
             <span className="hidden sm:inline">Search posts...</span>
             <span className="sm:hidden">Search...</span>
-            <kbd
-              className="pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted  
- px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
-            >
+            <kbd className="pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
               <span className="text-xs">⌘</span>K
             </kbd>
           </button>
@@ -199,10 +186,10 @@ export default function Header() {
                 >
                   {filteredPosts.map((post) => (
                     <CommandItem
-                      key={post.id}
+                      key={post.urlPath}
                       value={`${post.title} ${disassemble(post.title)} ${post.tags.join(" ")}`}
                       onSelect={() => {
-                        router.push(`/posts/${post.urlPath}`); // urlPath 사용
+                        router.push(`/posts/${post.urlPath}`);
                         setOpen(false);
                       }}
                       className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
