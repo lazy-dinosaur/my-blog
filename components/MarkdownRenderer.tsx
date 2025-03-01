@@ -249,7 +249,7 @@ export default function MarkdownRenderer({
       prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary/80
       prose-img:rounded-xl prose-img:shadow-lg
       prose-blockquote:border-l-4 prose-blockquote:border-primary
-      max-w-none mx-auto"
+      max-w-none mx-auto py-10"
     >
       <ReactMarkdown components={components}>{processedContent}</ReactMarkdown>
     </div>
