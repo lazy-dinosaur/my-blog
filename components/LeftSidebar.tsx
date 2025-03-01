@@ -6,6 +6,7 @@ import { Menu } from "lucide-react"; // X 아이콘 추가
 import { FolderStructure } from "@/lib/utils";
 import { TreeView } from "@/components/TreeView";
 import { useState } from "react"; // 상태 관리 추가
+import { DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
 
 export default function LeftSidebar({
   folderStructure,
@@ -18,6 +19,8 @@ export default function LeftSidebar({
     <>
       {/* Mobile version */}
       <Sheet open={open} onOpenChange={setOpen}>
+        <DialogTitle hidden={true}></DialogTitle>
+        <DialogDescription hidden={true}></DialogDescription>
         <SheetTrigger asChild className="lg:hidden fixed bottom-4 right-4 z-50">
           <Button variant="outline" size="icon">
             <Menu className="h-4 w-4" />

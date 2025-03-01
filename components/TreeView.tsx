@@ -4,30 +4,56 @@ import { cn, FolderStructure } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface TreeViewProps {
   data: FolderStructure[];
   level?: number;
+  parentPath?: string;
 }
 
-export function TreeView({ data, level = 0 }: TreeViewProps) {
+export function TreeView({ data, level = 0, parentPath = "" }: TreeViewProps) {
   return (
     <div className="space-y-1">
       {data.map((item) => (
-        <TreeNode key={item.urlPath || item.name} node={item} level={level} />
+        <TreeNode
+          key={item.urlPath || item.name}
+          node={item}
+          level={level}
+          parentPath={parentPath}
+        />
       ))}
     </div>
   );
 }
 
-function TreeNode({ node, level }: { node: FolderStructure; level: number }) {
+function TreeNode({
+  node,
+  level,
+  parentPath,
+}: {
+  node: FolderStructure;
+  level: number;
+  parentPath: string;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
-
   const decodedPath = decodeURIComponent(pathname);
-  const decodedNodePath = node.urlPath ? decodeURIComponent(node.urlPath) : "";
-  const isActive = decodedPath === `/posts/${decodedNodePath}`;
+
+  const currentPath =
+    node.type === "folder"
+      ? `${parentPath}/${node.name}`.replace("//", "/")
+      : node.urlPath || "";
+
+  const isActive = decodedPath === `/posts/${node.urlPath}`;
+  const shouldAutoExpand = decodedPath.startsWith(`/posts${currentPath}/`);
+
+  useEffect(() => {
+    if (shouldAutoExpand && !isExpanded) {
+      setIsExpanded(true);
+    }
+  }, [shouldAutoExpand, isExpanded]);
+
   const paddingLeft = `${level * 20}px`;
 
   return (
@@ -72,8 +98,12 @@ function TreeNode({ node, level }: { node: FolderStructure; level: number }) {
       </div>
 
       {isExpanded && node.children && (
-        <div className="ml-6">
-          <TreeView data={node.children} level={level + 1} />
+        <div className="ml-6 transition-all duration-300 ease-in-out">
+          <TreeView
+            data={node.children}
+            level={level + 1}
+            parentPath={currentPath}
+          />
         </div>
       )}
     </div>

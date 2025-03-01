@@ -150,7 +150,7 @@ export default function MarkdownRenderer({
             alt={alt || ""}
             width={1200}
             height={630}
-            className="rounded-xl shadow-lg transition-all group-hover:shadow-xl h-auto w-[20vw] min-w-96"
+            className="rounded-xl shadow-lg transition-all group-hover:shadow-xl h-auto w-[20vw] min-w-80 md:min-w-96"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           {alt && (
@@ -249,7 +249,7 @@ export default function MarkdownRenderer({
       prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary/80
       prose-img:rounded-xl prose-img:shadow-lg
       prose-blockquote:border-l-4 prose-blockquote:border-primary
-      max-w-none mx-auto py-10"
+      max-w-none mx-auto py-5 md:py-10"
     >
       <ReactMarkdown components={components}>{processedContent}</ReactMarkdown>
     </div>

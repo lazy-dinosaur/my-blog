@@ -32,7 +32,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <main className="container mx-auto max-w-screen-2xl">
-      <article className="rounded-lg p-8">
+      <article className="rounded-lg px-5 md:p-8">
         <div className="mb-6">
           <MarkdownRenderer
             content={post.content}
