@@ -78,7 +78,7 @@ process_note() {
 	echo "✅ 게시됨: $safe_publish/$(basename "$md_file")"
 
 	PUBLISH_MAP["$relative_path"]="$safe_publish/$(basename "$md_file" .md)"
-	echo "매핑 추가: $relative_path -> ${PUBLISH_MAP[$orig_path]}"
+	echo "매핑 추가: $relative_path -> ${PUBLISH_MAP[$relative_path]}"
 
 	grep -oE '!\[.*\]\([^)]+\)' "$md_file" | sed -E 's/.*\((.*)\)/\1/' |
 		while IFS= read -r img_path; do
@@ -142,6 +142,8 @@ for orig_path in "${!PUBLISH_MAP[@]}"; do
 		createdAt=$(echo "$frontmatter" | yq eval '.createdAt // ""' -)
 		modifiedAt=$(echo "$frontmatter" | yq eval '.modifiedAt // ""' -)
 
+		series=$(echo "$frontmatter" | yq eval '.series // ""' -)
+
 		if [[ "$first_meta" == "true" ]]; then
 			first_meta=false
 		else
@@ -155,6 +157,7 @@ for orig_path in "${!PUBLISH_MAP[@]}"; do
             "summary": "$summary",
             "image": "$image",
             "tags": $tags,
+            "series": "$series",                                                                                                                                                                                                                  
             "createdAt": "$createdAt",
             "modifiedAt": "$modifiedAt"
         }
