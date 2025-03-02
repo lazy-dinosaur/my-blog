@@ -34,6 +34,7 @@ export default function MarkdownRenderer({
       .then((res) => res.json())
       .then((data) => {
         setLinkMap(data);
+        console.log(data);
         setIsMapLoaded(true);
       })
       .catch((err) => {
@@ -43,9 +44,32 @@ export default function MarkdownRenderer({
   }, []);
 
   const processWikiLinks = (text: string) => {
-    return text.replace(/\[\[([^|]+)(?:\|([^\]]+))?\]\]/g, (_, path, label) => {
-      return `[${label || path.split("/").pop()?.replace(".md", "") || ""}](${path})`;
+    // 이스케이프된 링크 패턴을 정상 링크로 변환
+    let processed = text.replace(/\\\[(.*?)\\\]\((.*?)\)/g, (_, linkText, href) => {
+      console.log(`이스케이프된 링크 발견: ${linkText} -> ${href}`);
+      // 링크 텍스트는 그대로, href는 URI 인코딩
+      return `[${linkText}](${encodeURIComponent(href)})`;
     });
+
+    // 위키링크 처리
+    processed = processed.replace(
+      /\[\[([^|]+)(?:\|([^\]]+))?\]\]/g,
+      (_, path, label) => {
+        // 경로 정규화
+        const cleanPath = path.replace(/\.md$/, "");
+        // 표시할 이름이 없으면 경로의 마지막 부분을 사용
+        const displayName = label || cleanPath.split("/").pop() || cleanPath;
+
+        // URI 인코딩 적용
+        const encodedPath = encodeURIComponent(cleanPath);
+        console.log(`위키링크 변환: ${cleanPath} -> ${encodedPath}`);
+
+        // 인코딩된 경로로 마크다운 링크 생성
+        return `[${displayName}](${encodedPath})`;
+      },
+    );
+
+    return processed;
   };
 
   const processedContent = processWikiLinks(content);
@@ -164,6 +188,7 @@ export default function MarkdownRenderer({
     a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
       if (!href) return <span>{children}</span>;
 
+      // 외부 링크 처리 (http로 시작하는 경우)
       if (href.startsWith("http")) {
         return (
           <a
@@ -177,39 +202,57 @@ export default function MarkdownRenderer({
         );
       }
 
-      if (href.endsWith(".md")) {
-        if (!isMapLoaded) {
-          return <span className="text-gray-500">{children}</span>;
-        }
-
-        const linkedPath = Object.keys(linkMap).find(
-          (key) => key.endsWith(href) || key === href,
+      // 홈으로 가는 링크
+      if (href === "/") {
+        return (
+          <Link href="/" className="text-primary hover:underline">
+            {children}
+          </Link>
         );
+      }
 
-        if (linkedPath && linkMap[linkedPath]) {
+      // 내부 링크 처리
+      if (!isMapLoaded)
+        return <span className="text-gray-500">{children}</span>;
+
+      console.log("Processing link:", href);
+      
+      // 중요: href 디코딩 추가
+      const decodedHref = decodeURIComponent(href);
+      console.log("Decoded href:", decodedHref);
+
+      // 파일 확장자 제거 및 경로 정규화
+      const normalizedHref = decodedHref.replace(/\.md$/, "");
+      const targetFileName = normalizedHref.split("/").pop();
+
+      console.log("Target filename:", targetFileName);
+
+      // 모든 링크맵을 순회하며 일치하는 파일명 찾기
+      for (const [key, value] of Object.entries(linkMap)) {
+        const srcFileName = key.replace(/\.md$/, "").split("/").pop();
+        console.log(`Comparing: ${srcFileName} with ${targetFileName}`);
+
+        if (srcFileName === targetFileName) {
+          console.log(`Match found! ${key} -> ${value}`);
           return (
             <Link
-              href={`/posts/${linkMap[linkedPath]}`}
+              href={`/posts/${value}`}
               className="text-primary hover:underline"
             >
               {children}
             </Link>
           );
         }
-        return (
-          <span
-            className="text-gray-400 cursor-not-allowed"
-            title="발행되지 않은 문서"
-          >
-            {children}
-          </span>
-        );
       }
 
+      console.log("No match found for:", href);
       return (
-        <a href={href} className="text-primary hover:underline">
+        <span
+          className="text-gray-400 cursor-not-allowed"
+          title="발행되지 않은 문서"
+        >
           {children}
-        </a>
+        </span>
       );
     },
     blockquote: ({ children }: { children?: React.ReactNode }) => (
