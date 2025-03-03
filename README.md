@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 나의 옵시디언 블로그 퍼블리셔
 
-## Getting Started
+나의 워크플로우(옵시디언 + neovim)에 맞춘 블로그
 
-First, run the development server:
+Next.js 기반
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 기본 설정
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. env 설정
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   - NOTES_SOURCE_DIR: 노트 저장소 주소 (절대주소)
+   - IGNORED_DIRS: 무시하고 싶은 폴더 (상대주소)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```env
+   NOTES_SOURCE_DIR=/home/lazydino/vaults/notes
+   IGNORED_DIRS=_templates
+   ```
 
-## Learn More
+2. 의존 프로그램 설치
 
-To learn more about Next.js, take a look at the following resources:
+- Ubuntu/Debian
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  ```bash
+  sudo apt update && sudo apt install -y bash yq gawk perl rsync findutils sed
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  ```
 
-## Deploy on Vercel
+- Fedora
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  ```bash
+  sudo dnf install -y bash yq gawk perl rsync findutils sed
+  ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- MacOS
+
+  ```bash
+  brew install bash yq gawk perl rsync findutils gnu-sed
+  ```
+
+## 기본 사용법
+
+기본 워크플로우는 `./scripts/sync-notes.sh` 를 실행시켜 옵시디언 노트 내부의 폴더의 노트들을 복사해온 뒤 깃을 통해 푸시한다.
+
+> [!IMPORTANT]
+> 모든 md 문서중 프론트메터 값에 publish 값에 문자열값이(빈문자열 제외) 존재하는 문서들만 가져온다.
