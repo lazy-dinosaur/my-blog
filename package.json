@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "bun run scripts/sync-notes.sh && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "sync": "bun run scripts/sync-notes.sh"
