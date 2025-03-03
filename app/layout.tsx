@@ -42,11 +42,13 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <div className="flex min-h-[calc(100vh-4rem)] mt-16">
-            <LeftSidebar folderStructure={folderStructure} />
-            {children}
-            <RightSidebar />
+          <div className="min-h-screen flex flex-col m-w-screen">
+            <Header />
+            <div className="flex flex-1 container min-h-[calc(100vh-4rem)] mt-16 min-w-full">
+              <LeftSidebar folderStructure={folderStructure} />
+              {children}
+              <RightSidebar />
+            </div>
           </div>
         </ThemeProvider>
       </body>

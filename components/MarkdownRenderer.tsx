@@ -45,11 +45,14 @@ export default function MarkdownRenderer({
 
   const processWikiLinks = (text: string) => {
     // 이스케이프된 링크 패턴을 정상 링크로 변환
-    let processed = text.replace(/\\\[(.*?)\\\]\((.*?)\)/g, (_, linkText, href) => {
-      console.log(`이스케이프된 링크 발견: ${linkText} -> ${href}`);
-      // 링크 텍스트는 그대로, href는 URI 인코딩
-      return `[${linkText}](${encodeURIComponent(href)})`;
-    });
+    let processed = text.replace(
+      /\\\[(.*?)\\\]\((.*?)\)/g,
+      (_, linkText, href) => {
+        console.log(`이스케이프된 링크 발견: ${linkText} -> ${href}`);
+        // 링크 텍스트는 그대로, href는 URI 인코딩
+        return `[${linkText}](${encodeURIComponent(href)})`;
+      },
+    );
 
     // 위키링크 처리
     processed = processed.replace(
@@ -216,7 +219,7 @@ export default function MarkdownRenderer({
         return <span className="text-gray-500">{children}</span>;
 
       console.log("Processing link:", href);
-      
+
       // 중요: href 디코딩 추가
       const decodedHref = decodeURIComponent(href);
       console.log("Decoded href:", decodedHref);
