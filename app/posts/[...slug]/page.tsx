@@ -1,9 +1,16 @@
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Link from "next/link";
-import { getPost } from "@/lib/posts";
+import { getPost, getPosts } from "@/lib/posts";
 
 interface PostPageProps {
   params: Promise<{ slug: string[] }>;
+}
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    slug: post.urlPath.split("/").map(encodeURIComponent),
+  }));
 }
 
 export default async function PostPage({ params }: PostPageProps) {
@@ -15,7 +22,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   if (!post) {
     return (
-      <main className="container mx-auto max-w-screen-2xl">
+      <main className="flex-1 mx-auto p-5 lg:p-10 shadow-md">
         <article className="mx-auto rounded-lg p-8">
           <h1 className="text-2xl font-bold mb-4">
             포스트를 찾을 수 없습니다.
@@ -31,8 +38,8 @@ export default async function PostPage({ params }: PostPageProps) {
   const publishPath = post.urlPath.split("/").slice(0, -1).join("/");
 
   return (
-    <main className="container mx-auto max-w-screen-2xl">
-      <article className="rounded-lg px-5 md:p-8">
+    <main className="flex-1 mx-auto p-5 lg:p-10 shadow-md">
+      <article className="rounded-lg">
         <div className="mb-6">
           <MarkdownRenderer
             content={post.content}
