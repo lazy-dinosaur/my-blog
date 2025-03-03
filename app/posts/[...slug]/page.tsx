@@ -1,16 +1,9 @@
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Link from "next/link";
-import { getPost, getPosts } from "@/lib/posts";
+import { getPost } from "@/lib/posts";
 
 interface PostPageProps {
   params: Promise<{ slug: string[] }>;
-}
-
-export async function generateStaticParams() {
-  const posts = await getPosts();
-  return posts.map((post) => ({
-    slug: post.urlPath.split("/").map(encodeURIComponent),
-  }));
 }
 
 export default async function PostPage({ params }: PostPageProps) {
@@ -39,7 +32,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <main className="flex-1 mx-auto p-5 lg:p-10 shadow-md">
-      <article className="rounded-lg">
+      <article className="rounded-lg ">
         <div className="mb-6">
           <MarkdownRenderer
             content={post.content}
