@@ -21,6 +21,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LazyDino Dev Log",
   description: "내가 한걸 티내기 위해 만든 블로그",
+  authors: [{ name: "lazy-dinosaur", url: "https://github.com/lazy-dinosaur" }],
 };
 
 export default async function RootLayout({
