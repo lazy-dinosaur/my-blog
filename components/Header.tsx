@@ -21,25 +21,15 @@ import { Command } from "cmdk";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-
-interface Post {
-  title: string;
-  summary: string;
-  content: string;
-  plainContent: string;
-  image: string;
-  tags: string[];
-  createdAt: string;
-  urlPath: string;
-}
+import { usePosts } from "@/contexts/posts-context";
 
 export default function Header() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [posts, setPosts] = useState<Post[]>([]);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [isClient, setIsClient] = useState(false);
+  const { posts } = usePosts();
 
   useEffect(() => {
     setIsClient(true);
@@ -54,27 +44,6 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const res = await fetch("/api/posts", {
-          // 리다이렉트를 오류로 처리하는 옵션 추가
-          redirect: "error",
-          // 캐시 관련 설정
-          cache: "no-store",
-        });
-
-        if (res.ok) {
-          const json = await res.json();
-          setPosts(json.posts);
-        }
-      } catch (err) {
-        console.error("Error fetching posts:", err);
-      }
-    }
-    fetchPosts();
   }, []);
 
   const filteredPosts = useMemo(() => {

@@ -4,9 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import RightSidebar from "../components/RightSidebar";
 import { getPosts } from "@/lib/posts";
-import { buildFolderStructure } from "@/lib/utils";
 import Header from "../components/Header";
 import LeftSidebar from "../components/LeftSidebar";
+import { PostsProvider } from "@/contexts/posts-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +30,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const posts = await getPosts();
-  const folderStructure = buildFolderStructure(posts);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -43,14 +42,16 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="min-h-screen flex flex-col m-w-screen">
-            <Header />
-            <div className="flex flex-1 container min-h-[calc(100vh-4rem)] mt-16 min-w-full">
-              <LeftSidebar folderStructure={folderStructure} />
-              {children}
-              <RightSidebar />
+          <PostsProvider posts={posts}>
+            <div className="min-h-screen flex flex-col m-w-screen">
+              <Header />
+              <div className="flex flex-1 container min-h-[calc(100vh-4rem)] mt-16 min-w-full">
+                <LeftSidebar />
+                {children}
+                <RightSidebar />
+              </div>
             </div>
-          </div>
+          </PostsProvider>
         </ThemeProvider>
       </body>
     </html>

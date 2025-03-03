@@ -3,17 +3,16 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react"; // X 아이콘 추가
-import { FolderStructure } from "@/lib/utils";
 import { TreeView } from "@/components/TreeView";
 import { useState } from "react"; // 상태 관리 추가
 import { DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
+import { usePosts } from "@/contexts/posts-context";
+import { buildFolderStructure } from "@/lib/utils";
 
-export default function LeftSidebar({
-  folderStructure,
-}: {
-  folderStructure: FolderStructure[];
-}) {
+export default function LeftSidebar() {
   const [open, setOpen] = useState(false); // 오픈 상태 관리
+  const { posts } = usePosts();
+  const folderStructure = buildFolderStructure(posts);
 
   return (
     <>
