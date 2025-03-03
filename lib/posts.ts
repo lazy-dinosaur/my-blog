@@ -57,14 +57,16 @@ export async function getPost(slug: string[]): Promise<Post | null> {
 
   // 경로 정규화
   const urlPath = slug
-    .join('/')
-    .replace(/\/+/g, '/') // 중복 슬래시 제거
-    .replace(/\.md$/, ''); // .md 확장자 제거
+    .join("/")
+    .replace(/\/+/g, "/") // 중복 슬래시 제거
+    .replace(/\.md$/, ""); // .md 확장자 제거
 
   // 대소문자 구분 없이 검색
   const postMeta = metaData.find(
     (item: MetaData) =>
-      item.urlPath.localeCompare(urlPath, undefined, { sensitivity: 'base' }) === 0
+      item.urlPath.localeCompare(urlPath, undefined, {
+        sensitivity: "base",
+      }) === 0,
   );
 
   if (!postMeta) return null;
