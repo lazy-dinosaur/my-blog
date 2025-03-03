@@ -59,7 +59,13 @@ export default function Header() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const res = await fetch("/api/posts");
+        const res = await fetch("/api/posts", {
+          // 리다이렉트를 오류로 처리하는 옵션 추가
+          redirect: "error",
+          // 캐시 관련 설정
+          cache: "no-store",
+        });
+
         if (res.ok) {
           const json = await res.json();
           setPosts(json.posts);
@@ -254,7 +260,7 @@ export default function Header() {
                               return (
                                 <Badge
                                   key={tag}
-                                  className="text-xs px-2 py-1 bg-accent rounded-full"
+                                  className="text-xs px-2 py-1 rounded-full"
                                 >
                                   #{tag.slice(0, exactIndex)}
                                   <mark className="bg-yellow-200/30">
@@ -270,7 +276,7 @@ export default function Header() {
                             return (
                               <span
                                 key={tag}
-                                className="text-xs px-2 py-1 bg-accent rounded-full"
+                                className="text-xs px-2 py-1 rounded-full"
                               >
                                 {tag}
                               </span>
