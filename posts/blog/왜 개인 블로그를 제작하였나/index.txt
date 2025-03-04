@@ -7,19 +7,19 @@ a:I[86213,[],"ViewportBoundary"]
 c:I[34835,[],""]
 :HL["/_next/static/media/569ce4b8f30dc480-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/93f479601ee12b01-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/_next/static/css/892a70d6dfd74b89.css","style"]
-0:{"P":null,"b":"QpQ_KAoQbV3eR3GQ-31ky","p":"","c":["","posts","blog","%EC%99%9C%20%EA%B0%9C%EC%9D%B8%20%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%EC%A0%9C%EC%9E%91%ED%95%98%EC%98%80%EB%82%98",""],"i":false,"f":[[["",{"children":["posts",{"children":[["slug","blog/%EC%99%9C%20%EA%B0%9C%EC%9D%B8%20%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%EC%A0%9C%EC%9E%91%ED%95%98%EC%98%80%EB%82%98","c"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/892a70d6dfd74b89.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],"$L2"]}],{"children":["posts",["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","posts","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["slug","blog/%EC%99%9C%20%EA%B0%9C%EC%9D%B8%20%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%EC%A0%9C%EC%9E%91%ED%95%98%EC%98%80%EB%82%98","c"],["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","posts","children","$0:f:0:1:2:children:2:children:0","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L5",null,["$","$L6",null,{"children":"$L7"}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","LDYfZYFZDeLmbHeiz4qjJ",{"children":[["$","$L8",null,{"children":"$L9"}],["$","$La",null,{"children":"$Lb"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]]}],false]],"m":"$undefined","G":["$c","$undefined"],"s":false,"S":true}
+:HL["/_next/static/css/c38e39f9989c0361.css","style"]
+0:{"P":null,"b":"XuHrSw98dOeqFURnPgLmZ","p":"","c":["","posts","blog","%EC%99%9C%20%EA%B0%9C%EC%9D%B8%20%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%EC%A0%9C%EC%9E%91%ED%95%98%EC%98%80%EB%82%98",""],"i":false,"f":[[["",{"children":["posts",{"children":[["slug","blog/%EC%99%9C%20%EA%B0%9C%EC%9D%B8%20%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%EC%A0%9C%EC%9E%91%ED%95%98%EC%98%80%EB%82%98","c"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/c38e39f9989c0361.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],"$L2"]}],{"children":["posts",["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","posts","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["slug","blog/%EC%99%9C%20%EA%B0%9C%EC%9D%B8%20%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%EC%A0%9C%EC%9E%91%ED%95%98%EC%98%80%EB%82%98","c"],["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","posts","children","$0:f:0:1:2:children:2:children:0","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L5",null,["$","$L6",null,{"children":"$L7"}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","wcA7JmkbuJ0QzDG5T33hz",{"children":[["$","$L8",null,{"children":"$L9"}],["$","$La",null,{"children":"$Lb"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]]}],false]],"m":"$undefined","G":["$c","$undefined"],"s":false,"S":true}
 b:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
-9:[["$","meta","0",{"charSet":"utf-8"}],["$","title","1",{"children":"LazyDino Dev Log"}],["$","meta","2",{"name":"description","content":"내가 한걸 티내기 위해 만든 블로그"}],["$","link","3",{"rel":"author","href":"https://github.com/lazy-dinosaur"}],["$","meta","4",{"name":"author","content":"lazy-dinosaur"}]]
+9:[["$","meta","0",{"charSet":"utf-8"}],["$","title","1",{"children":"LazyDino Dev Log"}],["$","meta","2",{"name":"description","content":"내가 한걸 티내기 위해 만든 블로그"}]]
 7:null
-d:I[82586,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","424","static/chunks/424-424c974988a09206.js","156","static/chunks/app/posts/%5B...slug%5D/page-4614fab66607c287.js"],"default"]
-f:I[48173,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","424","static/chunks/424-424c974988a09206.js","156","static/chunks/app/posts/%5B...slug%5D/page-4614fab66607c287.js"],""]
-10:I[14627,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","389","static/chunks/389-da338f1b33f7baed.js","177","static/chunks/app/layout-a8f9cca03addd09f.js"],"ThemeProvider"]
-11:I[96403,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","389","static/chunks/389-da338f1b33f7baed.js","177","static/chunks/app/layout-a8f9cca03addd09f.js"],"PostsProvider"]
-14:I[23895,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","389","static/chunks/389-da338f1b33f7baed.js","177","static/chunks/app/layout-a8f9cca03addd09f.js"],"default"]
-15:I[19751,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","389","static/chunks/389-da338f1b33f7baed.js","177","static/chunks/app/layout-a8f9cca03addd09f.js"],"default"]
-16:I[41511,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","111","static/chunks/111-39ada47fd58e9d6c.js","389","static/chunks/389-da338f1b33f7baed.js","177","static/chunks/app/layout-a8f9cca03addd09f.js"],"ScrollArea"]
-e:T12ab,
+d:I[14627,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","389","static/chunks/389-465a7fb0cffb0280.js","177","static/chunks/app/layout-d95a67806ea4d9b2.js"],"ThemeProvider"]
+e:I[96403,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","389","static/chunks/389-465a7fb0cffb0280.js","177","static/chunks/app/layout-d95a67806ea4d9b2.js"],"PostsProvider"]
+11:I[23895,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","389","static/chunks/389-465a7fb0cffb0280.js","177","static/chunks/app/layout-d95a67806ea4d9b2.js"],"default"]
+12:I[19751,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","389","static/chunks/389-465a7fb0cffb0280.js","177","static/chunks/app/layout-d95a67806ea4d9b2.js"],"default"]
+13:I[48173,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","215","static/chunks/215-bd81e21bb59e22af.js","156","static/chunks/app/posts/%5B...slug%5D/page-8a31af3d69717681.js"],""]
+14:I[81262,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","389","static/chunks/389-465a7fb0cffb0280.js","177","static/chunks/app/layout-d95a67806ea4d9b2.js"],"default"]
+15:I[82586,["173","static/chunks/173-8992931c930b0419.js","970","static/chunks/970-734dac560ef910f1.js","295","static/chunks/295-1d64be5fdcca802f.js","215","static/chunks/215-bd81e21bb59e22af.js","156","static/chunks/app/posts/%5B...slug%5D/page-8a31af3d69717681.js"],"default"]
+f:T12ab,
 # 왜 개인 블로그를 제작하였나
 
 개발자로서 내가 한 것을 티내고 알리기 위해 블로그의 필요성을 느끼고 있었다.
@@ -78,67 +78,7 @@ e:T12ab,
 이런 블로그를 구현하기 위해 DB를 사용해야 하나 고민을 하였지만 그냥 단순하게 쉘스크립트를 사용하여 (Claude가 작성) Obsidian Vault 폴더안의 md 파일들을 카피해 오기로 했다.
 다음 포스트에서는 블로그를 구현한 방식을 적어보겠다
 다음: [[어떻게 블로그를 구현하였나]]
-5:["$","main",null,{"className":"flex-1 mx-auto p-5 lg:p-10 shadow-md","children":["$","article",null,{"className":"rounded-lg ","children":[["$","div",null,{"className":"mb-6","children":["$","$Ld",null,{"content":"$e","publish":"blog","published":"2025-03-02 10:01:22","modified":"2025-03-03 09:52:00","tags":["blog"]}]}],["$","$Lf",null,{"href":"/","className":"text-primary hover:underline","children":"← 홈으로 돌아가기"}]]}]}]
-12:T12ab,
-# 왜 개인 블로그를 제작하였나
-
-개발자로서 내가 한 것을 티내고 알리기 위해 블로그의 필요성을 느끼고 있었다.
-
-블로그를 만들고 배포할 수 있는 여러가지의 플랫폼들이 많이 있지만
-**정작 내가 작성한것을 복사해서 붙혀넣어야 한다는것** 때문에 귀찮아 지기도 했고 뭔가 내가 배우고 기록하는것이 중심이 아니라 **블로그 포스트를 만들기 위해서 기록한다는 주객이 전도되는 느낌이** 생기면서 타 플랫폼을 통한 블로그 포스팅은 내 스타일이 아니라는것을 깨달았다
-
-## 블로그를 만들기 전에 고려해보았던 블로그들
-
-고민해본 결과 블로그의 운영하는 방식은 3가지가 있는것 같다.
-
-1. 블로그 포스팅 플랫폼을 이용하는것
-2. Notion 혹은 Obsidian 같은 노트 앱들의 publish 기능을 활용하는것
-3. 개인 블로그를 제작하여 호스팅 하는것
-
-### 블로그 포스팅 플랫폼의 문제점
-
-우선 앞서 이야기 했던것처럼 블로그 플랫폼을 이용하는것은 제약이 있다.
-플랫폼을 사용하는 방법은 API 를 사용하여 자동화하는 방법과 플랫폼에 접속하여 글을 수동으로 올리는 방법 두가지가 존재한다 해당 방식들이 불편한 이유는 다음과 방식들이 불편한 이유는 다음과 같다.
-
-1. API 를 사용하여 글 관리 자동화
-   Api 를 지원하는 플랫폼들이 있었는데 최근에 많이 사라지는 추세이다.
-   **네이버**와 **티스토리**가 해당기능을 없앴다.
-   해당 블로그를사용하던 사람들이 많은 불만을 표했으며 나는 다른 플랫폼에 의존하는것이 안전한 방법이 아니라고 생각했다.
-
-2. 플랫폼에서 글을 수동으로 올리기
-   나는 글을 Neovim을 통해 작성하고 Obsidian 을 Viewer 로 사용하고 있다. 이 때문에 작성한 글을 올리기 위해서는 플랫폼에 복사해서 붙혀넣는 작업을 해야하고 지원되지 않는 Callout 형식 과 Wiki 스타일의 링크등 호환되지 않는 형식의 경우 수작업으로 변환해주어야 한다는 문제가 있다.
-
-### 노트 앱들의 Publish 기능을 활용하는것
-
-내가 사용해본 노트앱은 **Notion** 과 **Obsidian** 두가지가 있다
-둘다 아주 다양한 커스터마이즈가 가능하다는 점과 편하게 사람들과 공유할 수 있다는 점이 큰 장점이었다. 하지만 여기에도 문제점이 존재한다.
-
-1. 노트와 포스트의 분리
-   나의 경우 노트를 Inbox라는 폴더에 먼저 저장하고 완성해 가면서 다른 폴더로 옮긴다.
-   그리고 나중에 다른 업무에 사용될 수 있는 노트의 경우 다른 폴더로 또 옮긴다.
-   이렇게 되면 내가 원하는 지식을 블로그로 옮길때 블로그를 위해 보여주고 싶은 카테고리와 유형들로 묶는데 제한이 생긴다. 이걸 해결하기 위해서는 블로그 전용 워크스페이스를 따로 만들고 해당 워크스페이스만 공유를 해야 하는데 그렇게 되면 글을 복사해서 붙혀넣는건 플랫폼을 사용하는것과 다르지 않게 된다
-
-2. 커스터마이징의 한계
-   Notion 과 Obsidian 둘 다 노트플랫폼 기반이기 때문에 자유로운 디자인 커스터마이징이 지원되지 않는다. Obsidian의 경우 플러그인을 통해서 노트의 내용을 자체 서버로 빌드하여 올릴 수 있는데 이건 노트앱들의 기능이라기 보다는 스스로 블로그를 만들어 호스팅하는 3번째 방법에 가깝다.
-
-### 나만의 블로그를 제작하자
-
-다른 두 방법의 문제점들 때문에 나에게 맞는 블로그를 제작하기로 하였다.
-나만의 블로그를 제작하게 되면 위의 모든 문제를 해결할 수 있을것이라고 생각했다
-
-## 어떤 블로그를 만들고 싶었나
-
-위에 문제점들에 나타나있는 것들을 종합하고 반대로 생각해보면 내가 원하는 블로그는 다음과 같았다.
-
-1. 블로그 포스팅과 노트 작성의 흐름이 연결되어야 한다.
-2. 노트와 포스트가 분리되어야 한다. (원하는 노트들만 포스팅)
-3. 포스팅시 블로그의 구조는 내가 정할 수 있어야 한다.
-4. 커스터마이징이 가능하여 내가 원하는대로 기능을 추가하고 뺄 수 있어야 한다.
-
-이런 블로그를 구현하기 위해 DB를 사용해야 하나 고민을 하였지만 그냥 단순하게 쉘스크립트를 사용하여 (Claude가 작성) Obsidian Vault 폴더안의 md 파일들을 카피해 오기로 했다.
-다음 포스트에서는 블로그를 구현한 방식을 적어보겠다
-다음: [[어떻게 블로그를 구현하였나]]
-13:T1117,개발자로서 내가 한 것을 티내고 알리기 위해 블로그의 필요성을 느끼고 있었다.
+10:T1117,개발자로서 내가 한 것을 티내고 알리기 위해 블로그의 필요성을 느끼고 있었다.
 블로그를 만들고 배포할 수 있는 여러가지의 플랫폼들이 많이 있지만
 정작 내가 작성한것을 복사해서 붙혀넣어야 한다는것 때문에 귀찮아 지기도 했고 뭔가 내가 배우고 기록하는것이 중심이 아니라 블로그 포스트를 만들기 위해서 기록한다는 주객이 전도되는 느낌이 생기면서 타 플랫폼을 통한 블로그 포스팅은 내 스타일이 아니라는것을 깨달았다
 고민해본 결과 블로그의 운영하는 방식은 3가지가 있는것 같다.
@@ -170,4 +110,64 @@ Notion 과 Obsidian 둘 다 노트플랫폼 기반이기 때문에 자유로운 
 4. 커스터마이징이 가능하여 내가 원하는대로 기능을 추가하고 뺄 수 있어야 한다.
 이런 블로그를 구현하기 위해 DB를 사용해야 하나 고민을 하였지만 그냥 단순하게 쉘스크립트를 사용하여 (Claude가 작성) Obsidian Vault 폴더안의 md 파일들을 카피해 오기로 했다.
 다음 포스트에서는 블로그를 구현한 방식을 적어보겠다
-다음:2:["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":["$","body",null,{"className":"__variable_4d318d __variable_ea5f4b antialiased","children":["$","$L10",null,{"attribute":"class","defaultTheme":"system","enableSystem":true,"disableTransitionOnChange":true,"children":["$","$L11",null,{"posts":[{"urlPath":"blog/왜 개인 블로그를 제작하였나","title":"왜 개인 블로그를 제작하였나","summary":"","content":"$12","plainContent":"$13","image":"","tags":"$5:props:children:props:children:0:props:children:props:tags","createdAt":"2025-03-02 10:01:22","modifiedAt":"2025-03-03 09:52:00"},{"urlPath":"blog/어떻게 블로그를 구현하였나","title":"어떻게 블로그를 구현하였나","summary":"","content":"\n# 어떻게 블로그를 구현하였나\n\n[[왜 개인 블로그를 제작하였나|앞선 포스트]]에서 살펴본것처럼\n","plainContent":"앞선 포스트에서 살펴본것처럼","image":"","tags":["blog"],"createdAt":"2025-03-02 12:33:23","modifiedAt":"2025-03-02 16:44:47"}],"children":["$","div",null,{"className":"min-h-screen flex flex-col m-w-screen","children":[["$","$L14",null,{}],["$","div",null,{"className":"flex flex-1 container min-h-[calc(100vh-4rem)] mt-16 min-w-full","children":[["$","$L15",null,{}],["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[],["$","main",null,{"className":"flex-1 mx-auto p-5 lg:p-10 shadow-md","children":["$","article",null,{"className":"mx-auto rounded-lg p-8","children":[["$","h1",null,{"className":"text-2xl font-bold mb-4","children":"페이지를 찾을 수 없습니다"}],["$","div",null,{"className":"prose dark:prose-invert","children":[["$","p",null,{"className":"text-muted-foreground","children":"요청하신 페이지가 존재하지 않거나 삭제되었습니다."}],["$","$Lf",null,{"href":"/","className":"mt-4 inline-block text-primary hover:underline transition-colors duration-200","children":"← 홈으로 돌아가기"}]]}]]}]}]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","aside",null,{"className":"hidden lg:block w-56 xl:w-64 2xl:w-80 h-[calc(100vh-4rem)] sticky top-16 py-10","children":["$","$L16",null,{"className":"h-full p-4","children":["$","h2",null,{"className":"font-semibold mb-4","children":"Posts"}]}]}]]}]]}]}]}]}]}]
+다음:2:["$","html",null,{"lang":"ko","suppressHydrationWarning":true,"children":["$","body",null,{"className":"__variable_4d318d __variable_ea5f4b antialiased","children":["$","$Ld",null,{"attribute":"class","defaultTheme":"system","enableSystem":true,"disableTransitionOnChange":true,"children":["$","$Le",null,{"posts":[{"urlPath":"blog/왜 개인 블로그를 제작하였나","title":"왜 개인 블로그를 제작하였나","summary":"","content":"$f","plainContent":"$10","image":"","tags":["blog"],"createdAt":"2025-03-02 10:01:22","modifiedAt":"2025-03-04 11:19:10"},{"urlPath":"blog/test/test","title":"test","summary":"","content":"\n# test\n","plainContent":"","image":"","tags":["blog"],"createdAt":"2025-03-04 11:08:01","modifiedAt":"2025-03-04 11:08:13"},{"urlPath":"blog/어떻게 블로그를 구현하였나","title":"어떻게 블로그를 구현하였나","summary":"","content":"\n# 어떻게 블로그를 구현하였나\n\n[[왜 개인 블로그를 제작하였나|앞선 포스트]]에서 살펴본것처럼\n","plainContent":"앞선 포스트에서 살펴본것처럼","image":"","tags":["blog"],"createdAt":"2025-03-02 12:33:23","modifiedAt":"2025-03-02 16:44:47"}],"children":["$","div",null,{"className":"min-h-screen flex flex-col","children":[["$","$L11",null,{}],["$","div",null,{"className":"flex-1 flex mt-16 container mx-auto","children":[["$","$L12",null,{"className":"w-60 xl:w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)]"}],["$","div",null,{"className":"flex-1 px-4 py-6 overflow-x-hidden","children":["$","div",null,{"className":"max-w-4xl mx-auto","children":["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[],["$","main",null,{"className":"flex-1 mx-auto p-5 lg:p-10 shadow-md","children":["$","article",null,{"className":"mx-auto rounded-lg p-8","children":[["$","h1",null,{"className":"text-2xl font-bold mb-4","children":"페이지를 찾을 수 없습니다"}],["$","div",null,{"className":"prose dark:prose-invert","children":[["$","p",null,{"className":"text-muted-foreground","children":"요청하신 페이지가 존재하지 않거나 삭제되었습니다."}],["$","$L13",null,{"href":"/","className":"mt-4 inline-block text-primary hover:underline transition-colors duration-200","children":"← 홈으로 돌아가기"}]]}]]}]}]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}],["$","$L14",null,{"className":"w-56 xl:w-64 shrink-0 hidden xl:block sticky top-16 h-[calc(100vh-4rem)]"}]]}]]}]}]}]}]}]
+16:T12ab,
+# 왜 개인 블로그를 제작하였나
+
+개발자로서 내가 한 것을 티내고 알리기 위해 블로그의 필요성을 느끼고 있었다.
+
+블로그를 만들고 배포할 수 있는 여러가지의 플랫폼들이 많이 있지만
+**정작 내가 작성한것을 복사해서 붙혀넣어야 한다는것** 때문에 귀찮아 지기도 했고 뭔가 내가 배우고 기록하는것이 중심이 아니라 **블로그 포스트를 만들기 위해서 기록한다는 주객이 전도되는 느낌이** 생기면서 타 플랫폼을 통한 블로그 포스팅은 내 스타일이 아니라는것을 깨달았다
+
+## 블로그를 만들기 전에 고려해보았던 블로그들
+
+고민해본 결과 블로그의 운영하는 방식은 3가지가 있는것 같다.
+
+1. 블로그 포스팅 플랫폼을 이용하는것
+2. Notion 혹은 Obsidian 같은 노트 앱들의 publish 기능을 활용하는것
+3. 개인 블로그를 제작하여 호스팅 하는것
+
+### 블로그 포스팅 플랫폼의 문제점
+
+우선 앞서 이야기 했던것처럼 블로그 플랫폼을 이용하는것은 제약이 있다.
+플랫폼을 사용하는 방법은 API 를 사용하여 자동화하는 방법과 플랫폼에 접속하여 글을 수동으로 올리는 방법 두가지가 존재한다 해당 방식들이 불편한 이유는 다음과 방식들이 불편한 이유는 다음과 같다.
+
+1. API 를 사용하여 글 관리 자동화
+   Api 를 지원하는 플랫폼들이 있었는데 최근에 많이 사라지는 추세이다.
+   **네이버**와 **티스토리**가 해당기능을 없앴다.
+   해당 블로그를사용하던 사람들이 많은 불만을 표했으며 나는 다른 플랫폼에 의존하는것이 안전한 방법이 아니라고 생각했다.
+
+2. 플랫폼에서 글을 수동으로 올리기
+   나는 글을 Neovim을 통해 작성하고 Obsidian 을 Viewer 로 사용하고 있다. 이 때문에 작성한 글을 올리기 위해서는 플랫폼에 복사해서 붙혀넣는 작업을 해야하고 지원되지 않는 Callout 형식 과 Wiki 스타일의 링크등 호환되지 않는 형식의 경우 수작업으로 변환해주어야 한다는 문제가 있다.
+
+### 노트 앱들의 Publish 기능을 활용하는것
+
+내가 사용해본 노트앱은 **Notion** 과 **Obsidian** 두가지가 있다
+둘다 아주 다양한 커스터마이즈가 가능하다는 점과 편하게 사람들과 공유할 수 있다는 점이 큰 장점이었다. 하지만 여기에도 문제점이 존재한다.
+
+1. 노트와 포스트의 분리
+   나의 경우 노트를 Inbox라는 폴더에 먼저 저장하고 완성해 가면서 다른 폴더로 옮긴다.
+   그리고 나중에 다른 업무에 사용될 수 있는 노트의 경우 다른 폴더로 또 옮긴다.
+   이렇게 되면 내가 원하는 지식을 블로그로 옮길때 블로그를 위해 보여주고 싶은 카테고리와 유형들로 묶는데 제한이 생긴다. 이걸 해결하기 위해서는 블로그 전용 워크스페이스를 따로 만들고 해당 워크스페이스만 공유를 해야 하는데 그렇게 되면 글을 복사해서 붙혀넣는건 플랫폼을 사용하는것과 다르지 않게 된다
+
+2. 커스터마이징의 한계
+   Notion 과 Obsidian 둘 다 노트플랫폼 기반이기 때문에 자유로운 디자인 커스터마이징이 지원되지 않는다. Obsidian의 경우 플러그인을 통해서 노트의 내용을 자체 서버로 빌드하여 올릴 수 있는데 이건 노트앱들의 기능이라기 보다는 스스로 블로그를 만들어 호스팅하는 3번째 방법에 가깝다.
+
+### 나만의 블로그를 제작하자
+
+다른 두 방법의 문제점들 때문에 나에게 맞는 블로그를 제작하기로 하였다.
+나만의 블로그를 제작하게 되면 위의 모든 문제를 해결할 수 있을것이라고 생각했다
+
+## 어떤 블로그를 만들고 싶었나
+
+위에 문제점들에 나타나있는 것들을 종합하고 반대로 생각해보면 내가 원하는 블로그는 다음과 같았다.
+
+1. 블로그 포스팅과 노트 작성의 흐름이 연결되어야 한다.
+2. 노트와 포스트가 분리되어야 한다. (원하는 노트들만 포스팅)
+3. 포스팅시 블로그의 구조는 내가 정할 수 있어야 한다.
+4. 커스터마이징이 가능하여 내가 원하는대로 기능을 추가하고 뺄 수 있어야 한다.
+
+이런 블로그를 구현하기 위해 DB를 사용해야 하나 고민을 하였지만 그냥 단순하게 쉘스크립트를 사용하여 (Claude가 작성) Obsidian Vault 폴더안의 md 파일들을 카피해 오기로 했다.
+다음 포스트에서는 블로그를 구현한 방식을 적어보겠다
+다음: [[어떻게 블로그를 구현하였나]]
+5:["$","article",null,{"className":"bg-card rounded-lg  p-6 lg:p-8 min-h-[70vh]","children":[["$","div",null,{"className":"min-h-[300px]","children":["$","$L15",null,{"content":"$16","publish":"blog","published":"2025-03-02 10:01:22","modified":"2025-03-04 11:19:10","tags":"$2:props:children:props:children:props:children:props:posts:0:tags"}]}],["$","div",null,{"className":"mt-12 pt-6 border-t","children":["$","$L13",null,{"href":"/","className":"text-primary hover:underline inline-flex items-center","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left mr-2 h-4 w-4","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"홈으로 돌아가기"]}]}]]}]
