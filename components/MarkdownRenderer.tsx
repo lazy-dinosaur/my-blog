@@ -98,8 +98,9 @@ export default function MarkdownRenderer({
   const components = {
     h1: ({ children }: { children?: React.ReactNode }) => (
       <div className="mb-6 sm:mb-8 md:mb-10">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 md:mb-5">{children}</h1>
-
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 md:mb-5">
+          {children}
+        </h1>
         {/* 태그 목록 */}
         <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
           {tags?.map((tag) => (
@@ -112,7 +113,9 @@ export default function MarkdownRenderer({
         {/* 날짜 정보 */}
         <div className="flex flex-col sm:flex-row sm:justify-between text-xs sm:text-sm text-muted-foreground mb-6 sm:mb-8 pb-3 sm:pb-4 border-b">
           <div>작성일: {formatDate(published)}</div>
-          {modified && <div className="mt-1 sm:mt-0">수정일: {formatDate(modified)}</div>}
+          {modified && (
+            <div className="mt-1 sm:mt-0">수정일: {formatDate(modified)}</div>
+          )}
         </div>
       </div>
     ),
@@ -199,15 +202,8 @@ export default function MarkdownRenderer({
               padding: "1rem",
               borderRadius: 0,
               fontSize: "12px",
-              '@media (min-width: 640px)': {
-                padding: "1.25rem",
-                fontSize: "13px",
-              },
-              '@media (min-width: 768px)': {
-                padding: "1.5rem",
-                fontSize: "14px",
-              },
             }}
+            className="sm:text-[13px] md:text-[14px] sm:p-5 md:p-6"
             {...props}
           >
             {code}
@@ -313,21 +309,31 @@ export default function MarkdownRenderer({
     },
     blockquote: ({ children }: { children?: React.ReactNode }) => (
       <blockquote className="border-l-4 border-primary pl-3 sm:pl-4 md:pl-5 my-4 sm:my-5 md:my-6 py-1 bg-muted/30 rounded-r-lg">
-        <div className="italic text-foreground/80 font-medium text-sm sm:text-base">{children}</div>
+        <div className="italic text-foreground/80 font-medium text-sm sm:text-base">
+          {children}
+        </div>
       </blockquote>
     ),
     ul: ({ children }: { children?: React.ReactNode }) => (
-      <ul className="my-3 sm:my-4 md:my-5 ml-4 sm:ml-5 md:ml-6 list-disc space-y-1 sm:space-y-1.5 md:space-y-2">{children}</ul>
+      <ul className="my-3 sm:my-4 md:my-5 ml-4 sm:ml-5 md:ml-6 list-disc space-y-1 sm:space-y-1.5 md:space-y-2">
+        {children}
+      </ul>
     ),
     ol: ({ children }: { children?: React.ReactNode }) => (
-      <ol className="my-3 sm:my-4 md:my-5 ml-4 sm:ml-5 md:ml-6 list-decimal space-y-1 sm:space-y-1.5 md:space-y-2">{children}</ol>
+      <ol className="my-3 sm:my-4 md:my-5 ml-4 sm:ml-5 md:ml-6 list-decimal space-y-1 sm:space-y-1.5 md:space-y-2">
+        {children}
+      </ol>
     ),
     li: ({ children }: { children?: React.ReactNode }) => (
-      <li className="leading-6 sm:leading-7 text-sm sm:text-base text-foreground/90">{children}</li>
+      <li className="leading-6 sm:leading-7 text-sm sm:text-base text-foreground/90">
+        {children}
+      </li>
     ),
     table: ({ children }: { children?: React.ReactNode }) => (
       <div className="my-4 sm:my-6 md:my-8 overflow-x-auto rounded-md sm:rounded-lg border border-border">
-        <table className="w-full border-collapse text-xs sm:text-sm md:text-base">{children}</table>
+        <table className="w-full border-collapse text-xs sm:text-sm md:text-base">
+          {children}
+        </table>
       </div>
     ),
     thead: ({ children }: { children?: React.ReactNode }) => (
@@ -339,7 +345,9 @@ export default function MarkdownRenderer({
       </th>
     ),
     td: ({ children }: { children?: React.ReactNode }) => (
-      <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 border-b border-border/50">{children}</td>
+      <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 border-b border-border/50">
+        {children}
+      </td>
     ),
     hr: () => <hr className="my-6 sm:my-8 border-border" />,
     input: ({ checked }: { checked?: boolean }) => (
