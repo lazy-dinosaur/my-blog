@@ -39,7 +39,7 @@ export default function Header() {
       const currentScrollY = window.scrollY;
 
       // 30px 이상 스크롤했을 때만 동작 (모바일에서는 더 빨리 반응하도록)
-      if (currentScrollY > 30) {
+      if (currentScrollY > 5) {
         // 이전 스크롤 위치보다 아래로 스크롤하면 헤더 숨김
         // 이전 스크롤 위치보다 위로 스크롤하면 헤더 표시
         setHeaderVisible(prevScrollY > currentScrollY);
@@ -124,7 +124,9 @@ export default function Header() {
               height={80}
             />
           </span>
-          <span className="text-lg sm:text-xl md:text-2xl font-bold">lazydino.dev</span>
+          <span className="text-lg sm:text-xl md:text-2xl font-bold">
+            lazydino.dev
+          </span>
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
           <Button
