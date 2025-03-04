@@ -40,3 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .aider*
+
+# blogfiles
+.link-map.json
+.meta-data.json
+
+/content/posts/*
+/public/postImg/*
