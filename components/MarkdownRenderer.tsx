@@ -97,37 +97,37 @@ export default function MarkdownRenderer({
 
   const components = {
     h1: ({ children }: { children?: React.ReactNode }) => (
-      <div className="mb-8">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-4">{children}</h1>
+      <div className="mb-6 sm:mb-8 md:mb-10">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 md:mb-5">{children}</h1>
 
         {/* 태그 목록 */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
           {tags?.map((tag) => (
-            <Badge key={tag} variant="secondary">
+            <Badge key={tag} variant="secondary" className="text-xs sm:text-sm">
               #{tag}
             </Badge>
           ))}
         </div>
 
         {/* 날짜 정보 */}
-        <div className="flex flex-col sm:flex-row sm:justify-between text-sm text-muted-foreground mb-8 pb-4 border-b">
+        <div className="flex flex-col sm:flex-row sm:justify-between text-xs sm:text-sm text-muted-foreground mb-6 sm:mb-8 pb-3 sm:pb-4 border-b">
           <div>작성일: {formatDate(published)}</div>
-          {modified && <div>수정일: {formatDate(modified)}</div>}
+          {modified && <div className="mt-1 sm:mt-0">수정일: {formatDate(modified)}</div>}
         </div>
       </div>
     ),
     h2: ({ children }: { children?: React.ReactNode }) => (
-      <h2 className="text-2xl lg:text-3xl font-semibold mt-12 mb-6 pb-2 border-b border-border/50">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mt-8 sm:mt-10 md:mt-12 mb-4 sm:mb-6 pb-1 sm:pb-2 border-b border-border/50">
         {children}
       </h2>
     ),
     h3: ({ children }: { children?: React.ReactNode }) => (
-      <h3 className="text-xl lg:text-2xl font-semibold mt-8 mb-4">
+      <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mt-6 sm:mt-8 md:mt-10 mb-3 sm:mb-4">
         {children}
       </h3>
     ),
     h4: ({ children }: { children?: React.ReactNode }) => (
-      <h4 className="text-lg lg:text-xl font-medium mt-6 mb-3 text-primary">
+      <h4 className="text-base sm:text-lg lg:text-xl font-medium mt-4 sm:mt-6 mb-2 sm:mb-3 text-primary">
         {children}
       </h4>
     ),
@@ -151,9 +151,9 @@ export default function MarkdownRenderer({
       });
 
       return hasBlockElement ? (
-        <div className="my-4">{children}</div>
+        <div className="my-3 sm:my-4 md:my-5">{children}</div>
       ) : (
-        <p className="my-5 leading-7 text-foreground/90 text-[17px]">
+        <p className="my-3 sm:my-4 md:my-5 leading-6 sm:leading-7 text-foreground/90 text-sm sm:text-base md:text-[17px]">
           {children}
         </p>
       );
@@ -173,19 +173,19 @@ export default function MarkdownRenderer({
       const code = String(children).replace(/\n$/, "");
 
       return !inline && match ? (
-        <div className="relative my-6 rounded-lg overflow-hidden">
-          <div className="flex items-center justify-between bg-primary/10 text-primary px-4 py-2 text-sm font-mono">
+        <div className="relative my-4 sm:my-6 md:my-8 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-between bg-primary/10 text-primary px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-mono">
             <span>{match[1]}</span>
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 text-xs"
+              className="h-6 sm:h-8 text-xs"
               onClick={() => handleCopyCode(code)}
             >
               {copiedCode === code ? (
-                <Check className="h-4 w-4 mr-1" />
+                <Check className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               ) : (
-                <Copy className="h-4 w-4 mr-1" />
+                <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               )}
               {copiedCode === code ? "복사됨" : "복사"}
             </Button>
@@ -196,9 +196,17 @@ export default function MarkdownRenderer({
             PreTag="div"
             customStyle={{
               margin: 0,
-              padding: "1.5rem",
+              padding: "1rem",
               borderRadius: 0,
-              fontSize: "14px",
+              fontSize: "12px",
+              '@media (min-width: 640px)': {
+                padding: "1.25rem",
+                fontSize: "13px",
+              },
+              '@media (min-width: 768px)': {
+                padding: "1.5rem",
+                fontSize: "14px",
+              },
             }}
             {...props}
           >
@@ -215,11 +223,11 @@ export default function MarkdownRenderer({
       );
     },
     img: ({ src, alt }: { src?: string; alt?: string }) => (
-      <div className="my-8 relative group">
+      <div className="my-4 sm:my-6 md:my-8 relative group">
         <div className="flex flex-col w-full items-center justify-center">
           <div
-            className="relative overflow-hidden rounded-lg shadow-lg transition-all group-hover:shadow-xl border       
- border-muted/20 w-full max-w-3xl"
+            className="relative overflow-hidden rounded-md sm:rounded-lg shadow-md sm:shadow-lg transition-all group-hover:shadow-xl border       
+ border-muted/20 w-full max-w-full sm:max-w-2xl md:max-w-3xl"
           >
             <Image
               src={src || ""}
@@ -227,11 +235,11 @@ export default function MarkdownRenderer({
               width={1200}
               height={630}
               className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
+              sizes="(max-width: 640px) 95vw, (max-width: 768px) 85vw, (max-width: 1024px) 75vw, 50vw"
             />
           </div>
           {alt && (
-            <div className="text-center text-sm text-muted-foreground mt-3 italic">
+            <div className="text-center text-xs sm:text-sm text-muted-foreground mt-2 sm:mt-3 italic">
               {alt}
             </div>
           )}
@@ -248,8 +256,7 @@ export default function MarkdownRenderer({
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary font-medium hover:underline decoration-primary decoration-2 underline-offset-2        
- transition-colors"
+            className="text-primary font-medium hover:underline decoration-primary decoration-1 sm:decoration-2 underline-offset-2 transition-colors"
           >
             {children}
           </a>
@@ -305,36 +312,36 @@ export default function MarkdownRenderer({
       );
     },
     blockquote: ({ children }: { children?: React.ReactNode }) => (
-      <blockquote className="border-l-4 border-primary pl-5 my-6 py-1 bg-muted/30 rounded-r-lg">
-        <div className="italic text-foreground/80 font-medium">{children}</div>
+      <blockquote className="border-l-4 border-primary pl-3 sm:pl-4 md:pl-5 my-4 sm:my-5 md:my-6 py-1 bg-muted/30 rounded-r-lg">
+        <div className="italic text-foreground/80 font-medium text-sm sm:text-base">{children}</div>
       </blockquote>
     ),
     ul: ({ children }: { children?: React.ReactNode }) => (
-      <ul className="my-5 ml-6 list-disc space-y-2">{children}</ul>
+      <ul className="my-3 sm:my-4 md:my-5 ml-4 sm:ml-5 md:ml-6 list-disc space-y-1 sm:space-y-1.5 md:space-y-2">{children}</ul>
     ),
     ol: ({ children }: { children?: React.ReactNode }) => (
-      <ol className="my-5 ml-6 list-decimal space-y-2">{children}</ol>
+      <ol className="my-3 sm:my-4 md:my-5 ml-4 sm:ml-5 md:ml-6 list-decimal space-y-1 sm:space-y-1.5 md:space-y-2">{children}</ol>
     ),
     li: ({ children }: { children?: React.ReactNode }) => (
-      <li className="leading-7 text-foreground/90">{children}</li>
+      <li className="leading-6 sm:leading-7 text-sm sm:text-base text-foreground/90">{children}</li>
     ),
     table: ({ children }: { children?: React.ReactNode }) => (
-      <div className="my-8 overflow-x-auto rounded-lg border border-border">
-        <table className="w-full border-collapse">{children}</table>
+      <div className="my-4 sm:my-6 md:my-8 overflow-x-auto rounded-md sm:rounded-lg border border-border">
+        <table className="w-full border-collapse text-xs sm:text-sm md:text-base">{children}</table>
       </div>
     ),
     thead: ({ children }: { children?: React.ReactNode }) => (
       <thead className="bg-muted">{children}</thead>
     ),
     th: ({ children }: { children?: React.ReactNode }) => (
-      <th className="text-left py-3 px-4 font-semibold border-b border-border">
+      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold border-b border-border">
         {children}
       </th>
     ),
     td: ({ children }: { children?: React.ReactNode }) => (
-      <td className="py-3 px-4 border-b border-border/50">{children}</td>
+      <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 border-b border-border/50">{children}</td>
     ),
-    hr: () => <hr className="my-8 border-border" />,
+    hr: () => <hr className="my-6 sm:my-8 border-border" />,
     input: ({ checked }: { checked?: boolean }) => (
       <input
         type="checkbox"

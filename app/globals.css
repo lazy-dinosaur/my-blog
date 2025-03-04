@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 반응형 유틸리티 클래스 */
+@layer utilities {
+  .text-2xs {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
 @layer base {
   :root {
     --background: 170 100% 100%;

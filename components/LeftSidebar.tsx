@@ -26,18 +26,24 @@ export default function LeftSidebar({ className }: LeftSidebarProps) {
         <DialogTitle hidden={true}></DialogTitle>
         <DialogDescription hidden={true}></DialogDescription>
         <SheetTrigger asChild className="lg:hidden fixed bottom-4 left-4 z-50">
-          <Button variant="outline" size="icon">
-            <Menu className="h-4 w-4" />
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10 sm:h-12 sm:w-12 shadow-md"
+          >
+            <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="w-80 p-0 pt-12"
+          className="w-[280px] sm:w-[320px] md:w-[360px] p-0 pt-10 sm:pt-12"
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <div className="relative h-full">
-            <ScrollArea className="h-full p-4">
-              <h2 className="text-lg font-semibold mb-4 px-2">카테고리</h2>
+            <ScrollArea className="h-full p-3 sm:p-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 px-1 sm:px-2">
+                카테고리
+              </h2>
               <TreeView data={folderStructure} />
             </ScrollArea>
           </div>
@@ -46,8 +52,10 @@ export default function LeftSidebar({ className }: LeftSidebarProps) {
 
       {/* 데스크톱 버전 */}
       <aside className={cn("hidden lg:block border-r", className)}>
-        <ScrollArea className="h-full p-4">
-          <h2 className="text-lg font-semibold mb-4 px-2">카테고리</h2>
+        <ScrollArea className="h-full p-3 sm:p-4 md:p-5">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4 md:mb-5 px-1 sm:px-2">
+            카테고리
+          </h2>
           <TreeView data={folderStructure} />
         </ScrollArea>
       </aside>

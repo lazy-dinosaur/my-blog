@@ -25,13 +25,15 @@ export default async function PostPage({ params }: PostPageProps) {
 
   if (!post) {
     return (
-      <div className="bg-card rounded-lg shadow-md p-8">
-        <h1 className="text-2xl font-bold mb-6">포스트를 찾을 수 없습니다.</h1>
+      <div className="bg-card rounded-lg shadow-md p-4 sm:p-6 md:p-8">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+          포스트를 찾을 수 없습니다.
+        </h1>
         <Link
           href="/"
-          className="text-primary hover:underline inline-flex items-center"
+          className="text-primary hover:underline inline-flex items-center text-sm sm:text-base"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
           홈으로 돌아가기
         </Link>
       </div>
@@ -41,9 +43,9 @@ export default async function PostPage({ params }: PostPageProps) {
   const publishPath = post.urlPath.split("/").slice(0, -1).join("/");
 
   return (
-    <article className="bg-card rounded-lg  p-6 lg:p-8 min-h-[70vh]">
+    <article className="bg-card rounded-lg p-4 sm:p-6 lg:p-8 min-h-[70vh]">
       {/* 마크다운 콘텐츠 */}
-      <div className="min-h-[300px]">
+      <div className="min-h-[250px] sm:min-h-[300px]">
         <MarkdownRenderer
           content={post.content}
           publish={publishPath}
@@ -54,12 +56,12 @@ export default async function PostPage({ params }: PostPageProps) {
       </div>
 
       {/* 홈으로 돌아가기 */}
-      <div className="mt-12 pt-6 border-t">
+      <div className="mt-8 sm:mt-10 md:mt-12 pt-4 sm:pt-6 border-t">
         <Link
           href="/"
-          className="text-primary hover:underline inline-flex items-center"
+          className="text-primary hover:underline inline-flex items-center text-sm sm:text-base"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
           홈으로 돌아가기
         </Link>
       </div>

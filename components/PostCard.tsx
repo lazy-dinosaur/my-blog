@@ -38,37 +38,44 @@ const PostCard = ({
 
   return (
     <Link href={`/posts/${urlPath}`}>
-      <Card className="hover:shadow-lg transition-shadow duration-300 h-full">
-        <CardHeader>
-          <CardTitle className="text-xl">{title}</CardTitle>
+      <Card className="hover:shadow-lg transition-shadow duration-300 h-full group">
+        <CardHeader className="p-3 sm:p-4 md:p-6">
+          <CardTitle className="text-lg sm:text-xl md:text-2xl line-clamp-2">
+            {title}
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
           {thumbnail ? (
-            <div className="relative w-full mb-4 aspect-video overflow-hidden rounded-md">
+            <div className="relative w-full mb-3 sm:mb-4 aspect-video overflow-hidden rounded-md group-hover:shadow-md transition-shadow">
               <Image
                 src={thumbnail}
                 alt={title}
                 fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               />
             </div>
           ) : (
-            <div className="h-48 w-full mb-4 flex items-center justify-center bg-muted text-muted-foreground rounded-md p-4">
-              <span className="text-center text-sm">
+            <div className="h-32 sm:h-40 md:h-48 w-full mb-3 sm:mb-4 flex items-center justify-center bg-muted text-muted-foreground rounded-md p-3 sm:p-4 group-hover:bg-muted/80 transition-colors">
+              <span className="text-center text-xs sm:text-sm">
                 {(plainContent || content).substring(0, 100)}...
               </span>
             </div>
           )}
-          <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3 line-clamp-2">
             {summary}
           </p>
-          <div className="flex flex-wrap gap-2 mb-2">
+          <div className="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
             {tags.map((tag) => (
-              <Badge key={tag}>#{tag}</Badge>
+              <Badge
+                key={tag}
+                className="text-xs px-1.5 py-0.5 sm:px-2 sm:py-1"
+              >
+                #{tag}
+              </Badge>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-2xs sm:text-xs text-muted-foreground">
             Published on {new Date(createdAt).toLocaleDateString()}
           </p>
         </CardContent>

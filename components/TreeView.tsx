@@ -54,39 +54,39 @@ function TreeNode({
     }
   }, [shouldAutoExpand, isExpanded]);
 
-  const paddingLeft = `${level * 16}px`;
+  const paddingLeft = `${level * 12}px`;
   const linkClassName = cn(
-    "flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors px-1",
+    "flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium hover:text-primary transition-colors px-1",
     (isFileActive || isFolderActive) && "text-primary bg-accent/50",
   );
 
   return (
-    <div style={{ paddingLeft }}>
+    <div style={{ paddingLeft }} className="py-0.5">
       <div
         className={cn(
-          "flex items-center hover:bg-accent rounded-md mb-1.5",
+          "flex items-center hover:bg-accent rounded-md mb-1 sm:mb-1.5",
           (isFileActive || isFolderActive) && "bg-accent",
         )}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {node.type === "folder" && (
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+          <Button variant="ghost" size="sm" className="h-6 sm:h-8 w-6 sm:w-8 p-0">
             {isExpanded ? (
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4" />
             ) : (
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
             )}
           </Button>
         )}
-        <div className="flex-1 py-1">
+        <div className="flex-1 py-0.5 sm:py-1">
           {node.type === "file" ? (
             <Link href={normalizedCurrentPath} className={linkClassName}>
-              <File className="h-4 w-4 text-muted-foreground" />
+              <File className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               {node.name}
             </Link>
           ) : (
             <button className={linkClassName}>
-              <Folder className="h-4 w-4 text-muted-foreground" />
+              <Folder className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               {node.name}
             </button>
           )}

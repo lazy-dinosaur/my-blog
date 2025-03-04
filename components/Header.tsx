@@ -27,25 +27,33 @@ export default function Header() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [prevScrollY, setPrevScrollY] = useState(0);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const { posts } = usePosts();
 
   useEffect(() => {
     setIsClient(true);
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > 50) {
-        setHeaderVisible(currentScrollY < window.scrollY);
+
+      // 30px 이상 스크롤했을 때만 동작 (모바일에서는 더 빨리 반응하도록)
+      if (currentScrollY > 30) {
+        // 이전 스크롤 위치보다 아래로 스크롤하면 헤더 숨김
+        // 이전 스크롤 위치보다 위로 스크롤하면 헤더 표시
+        setHeaderVisible(prevScrollY > currentScrollY);
       } else {
+        // 상단 근처에서는 항상 헤더 표시
         setHeaderVisible(true);
       }
+
+      setPrevScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+  }, [prevScrollY]);
   const filteredPosts = useMemo(() => {
     const cleanQuery = searchQuery.toLowerCase().replace(/\s/g, "");
     const decomposedQuery = disassemble(cleanQuery);
@@ -100,14 +108,14 @@ export default function Header() {
   return (
     <header
       className={cn(
-        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-14 md:h-16 border-b flex items-center justify-center ${
+        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-12 sm:h-14 md:h-16 border-b flex items-center justify-center ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         } z-20`,
       )}
     >
-      <div className=" flex items-center justify-between py-2 px-6 w-full max-w-screen-2xl">
+      <div className="flex items-center justify-between py-1 sm:py-2 px-3 sm:px-4 md:px-6 w-full max-w-screen-2xl">
         <Link className="flex items-center" href="/">
-          <span className="relative w-16 h-10 md:w-20 md:h-12 mr-2">
+          <span className="relative w-10 h-8 sm:w-14 sm:h-9 md:w-20 md:h-12 mr-1 sm:mr-2">
             <Image
               src="/lazydino-logo3.png"
               alt="lazydino.dev"
@@ -116,22 +124,22 @@ export default function Header() {
               height={80}
             />
           </span>
-          <span className="text-xl md:text-2xl font-bold">lazydino.dev</span>
+          <span className="text-lg sm:text-xl md:text-2xl font-bold">lazydino.dev</span>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="rounded-full"
+            className="rounded-full h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10"
           >
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <Sun className="h-[1rem] w-[1rem] sm:h-[1.2rem] sm:w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1rem] w-[1rem] sm:h-[1.2rem] sm:w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
           </Button>
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1 md:gap-2 rounded-md border border-input bg-transparent px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm text-muted-foreground hover:bg-accent transition-colors"
+            className="flex items-center gap-1 md:gap-2 rounded-md border border-input bg-transparent px-1.5 sm:px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm text-muted-foreground hover:bg-accent transition-colors"
           >
             <span className="hidden sm:inline">Search posts...</span>
             <span className="sm:hidden">Search...</span>
@@ -148,7 +156,7 @@ export default function Header() {
               placeholder="Search posts..."
               value={searchQuery}
               onValueChange={setSearchQuery}
-              className="flex-1 border-none shadow-none focus:ring-0"
+              className="flex-1 border-none shadow-none focus:ring-0 text-sm sm:text-base"
             />
             <ScrollArea className="h-full max-h-[300px]">
               <CommandList className="px-2 py-3 max-h-full">
@@ -169,8 +177,8 @@ export default function Header() {
                       }}
                       className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
                     >
-                      <div className="py-2">
-                        <h3 className="font-medium">
+                      <div className="py-1 sm:py-2">
+                        <h3 className="text-sm sm:text-base font-medium">
                           {(() => {
                             const lowerText = post.title;
                             const lowerQuery = searchQuery;
@@ -196,7 +204,7 @@ export default function Header() {
                             return post.title;
                           })()}
                         </h3>
-                        <p className="text-sm text-muted-foreground line-clamp-1">
+                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
                           {(() => {
                             const lowerText = post.summary.toLowerCase();
                             const lowerQuery = searchQuery.toLowerCase();
@@ -229,7 +237,7 @@ export default function Header() {
                               return (
                                 <Badge
                                   key={tag}
-                                  className="text-xs px-2 py-1 rounded-full"
+                                  className="text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full"
                                 >
                                   #{tag.slice(0, exactIndex)}
                                   <mark className="bg-yellow-200/30">
@@ -245,7 +253,7 @@ export default function Header() {
                             return (
                               <span
                                 key={tag}
-                                className="text-xs px-2 py-1 rounded-full"
+                                className="text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full"
                               >
                                 {tag}
                               </span>
