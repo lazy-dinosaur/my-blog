@@ -8,6 +8,9 @@ interface PostPageProps {
 
 export async function generateStaticParams() {
   const posts = await getPosts();
+  if (posts.length === 0) {
+    return [{ slug: ["no-post"] }];
+  }
 
   return posts.map((post) => ({
     slug: decodeURIComponent(post.urlPath).split("/"),
