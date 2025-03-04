@@ -51,9 +51,9 @@ export default function LeftSidebar({ className }: LeftSidebarProps) {
       </Sheet>
 
       {/* 데스크톱 버전 */}
-      <aside className={cn("hidden lg:block border-r", className)}>
+      <aside className={cn("hidden lg:block", className)}>
         <ScrollArea className="h-full p-3 sm:p-4 md:p-5">
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4 md:mb-5 px-1 sm:px-2">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4 md:mb-5 px-1 sm:px-2 border-b pb-2">
             카테고리
           </h2>
           <TreeView data={folderStructure} />

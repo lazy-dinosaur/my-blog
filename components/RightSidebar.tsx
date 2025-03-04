@@ -11,14 +11,18 @@ interface RightSidebarProps {
 
 const RightSidebar = ({ className }: RightSidebarProps) => {
   return (
-    <aside className={cn("hidden lg:block border-l", className)}>
+    <aside className={cn("hidden lg:block", className)}>
       <ScrollArea className="h-full p-3 sm:p-4 md:p-5">
-        <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 md:mb-5">최근 게시물</h2>
+        <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 md:mb-5 border-b pb-2">
+          최근 게시물
+        </h2>
         <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8 md:mb-10">
           <RecentPosts />
         </div>
 
-        <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 md:mb-5 mt-6 sm:mt-8 md:mt-10">인기 태그</h2>
+        <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 md:mb-5 mt-6 sm:mt-8 md:mt-10 border-b pb-2">
+          인기 태그
+        </h2>
         <div className="flex flex-wrap gap-1.5 sm:gap-2 md:gap-3">
           <PopularTags />
         </div>

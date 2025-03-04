@@ -108,7 +108,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        `bg-background shadow-sm fixed top-0 w-full transition-transform duration-300 h-12 sm:h-14 md:h-16 border-b flex items-center justify-center ${
+        `bg-background shadow-md fixed top-0 w-full transition-transform duration-300 h-12 sm:h-14 md:h-16 flex items-center justify-center ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         } z-20`,
       )}
