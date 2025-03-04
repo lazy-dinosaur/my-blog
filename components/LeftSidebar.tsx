@@ -41,7 +41,7 @@ export default function LeftSidebar() {
       </Sheet>
 
       {/* Desktop version (기존 코드 유지) */}
-      <aside className="hidden lg:block w-56 xl:w-64 2xl:w-80  h-[calc(100vh-4rem)] sticky top-16 py-10">
+      <aside className="hidden lg:block w-56 xl:w-64 2xl:w-80  h-[calc(100vh-4rem)] sticky top-0 py-10">
         <ScrollArea className="h-full p-4">
           <h2 className="text-lg font-semibold mb-4 px-2">카테고리</h2>
           <TreeView data={folderStructure} />

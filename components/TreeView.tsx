@@ -14,7 +14,7 @@ interface TreeViewProps {
 
 export function TreeView({ data, level = 0, parentPath = "" }: TreeViewProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       {data.map((item) => (
         <TreeNode
           key={item.urlPath || item.name}
@@ -39,13 +39,13 @@ function TreeNode({
   const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
   const decodedPath = decodeURIComponent(pathname);
-
   const currentPath =
     node.type === "folder"
       ? `${parentPath}/${node.name}`.replace("//", "/")
       : node.urlPath || "";
-
-  const isActive = decodedPath === `/posts/${node.urlPath}`;
+  const normalizedCurrentPath = `/posts/${node.urlPath}`;
+  const isFileActive = decodedPath === normalizedCurrentPath;
+  const isFolderActive = decodedPath.startsWith(`${normalizedCurrentPath}/`);
   const shouldAutoExpand = decodedPath.startsWith(`/posts${currentPath}/`);
 
   useEffect(() => {
@@ -54,14 +54,18 @@ function TreeNode({
     }
   }, [shouldAutoExpand, isExpanded]);
 
-  const paddingLeft = `${level * 20}px`;
+  const paddingLeft = `${level * 16}px`;
+  const linkClassName = cn(
+    "flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors px-1",
+    (isFileActive || isFolderActive) && "text-primary bg-accent/50",
+  );
 
   return (
-    <div className="pl-2" style={{ paddingLeft }}>
+    <div style={{ paddingLeft }}>
       <div
         className={cn(
-          "flex items-center gap-2 hover:bg-accent rounded-md cursor-pointer",
-          isActive && "bg-accent",
+          "flex items-center hover:bg-accent rounded-md mb-1.5",
+          (isFileActive || isFolderActive) && "bg-accent",
         )}
         onClick={() => setIsExpanded(!isExpanded)}
       >
@@ -74,31 +78,22 @@ function TreeNode({
             )}
           </Button>
         )}
-
         <div className="flex-1 py-1">
           {node.type === "file" ? (
-            <Link
-              href={`/posts/${node.urlPath}`}
-              className={cn(
-                "flex items-center gap-2 text-sm font-medium",
-                "hover:text-primary transition-colors",
-                isActive && "text-primary bg-accent/50",
-              )}
-            >
+            <Link href={normalizedCurrentPath} className={linkClassName}>
               <File className="h-4 w-4 text-muted-foreground" />
               {node.name}
             </Link>
           ) : (
-            <span className="flex items-center gap-2 text-sm font-medium">
+            <button className={linkClassName}>
               <Folder className="h-4 w-4 text-muted-foreground" />
               {node.name}
-            </span>
+            </button>
           )}
         </div>
       </div>
-
       {isExpanded && node.children && (
-        <div className="ml-6 transition-all duration-300 ease-in-out">
+        <div className="transition-all duration-300 ease-in-out">
           <TreeView
             data={node.children}
             level={level + 1}
