@@ -42,8 +42,8 @@ export default async function PostPage({ params }: PostPageProps) {
   const publishPath = post.urlPath.split("/").slice(0, -1).join("/");
 
   return (
-    <main className="flex-1 mx-auto p-5 lg:p-10 shadow-md">
-      <article className="rounded-lg ">
+    <main className="flex-1 mx-auto p-5 lg:p-10 shadow-md flex items-center justify-center">
+      <article className="rounded-lg max-w-screen-lg">
         <div className="mb-6">
           <MarkdownRenderer
             content={post.content}

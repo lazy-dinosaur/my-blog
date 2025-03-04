@@ -43,11 +43,11 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <PostsProvider posts={posts}>
-            <div className="min-h-screen flex flex-col m-w-screen">
+            <div className="min-h-screen flex flex-col">
               <Header />
-              <div className="flex flex-1 container min-h-[calc(100vh-4rem)] mt-16 min-w-full">
+              <div className="flex flex-1 mx-auto px-4 gap-6 min-h-[calc(100vh-4rem)] mt-16">
                 <LeftSidebar />
-                {children}
+                <main className="flex-1 py-5 lg:py-10">{children}</main>
                 <RightSidebar />
               </div>
             </div>
