@@ -42,8 +42,8 @@ next-env.d.ts
 .aider*
 
 # blogfiles
-link-map.json
-meta-data.json
+/public/link-map.json
+/public/meta-data.json
 
 /content/posts/*
 /public/postImg/*
