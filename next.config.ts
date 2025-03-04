@@ -1,14 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
   images: {
     domains: ["user-images.githubusercontent.com"],
+    unoptimized: true,
   },
+  trailingSlash: true, // ✅ 정적 서버 라우팅 호환성
   /* config options here */
-  // 서버 미들웨어 조정
-  experimental: {
-    serverComponentsExternalPackages: ["gray-matter"],
-  },
+  basePath: "",
 };
 
 export default nextConfig;

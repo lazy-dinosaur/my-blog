@@ -1,9 +1,17 @@
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Link from "next/link";
-import { getPost } from "@/lib/posts";
+import { getPost, getPosts } from "@/lib/posts";
 
 interface PostPageProps {
   params: Promise<{ slug: string[] }>;
+}
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+
+  return posts.map((post) => ({
+    slug: decodeURIComponent(post.urlPath).split("/"),
+  }));
 }
 
 export default async function PostPage({ params }: PostPageProps) {
