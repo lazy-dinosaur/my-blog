@@ -108,8 +108,6 @@
   background-color: #4b5563;
 }
 
-
-
 @layer base {
   * {
     @apply border-border;
@@ -117,4 +115,29 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* 마크다운 스타일 */
+.prose-custom {
+  @apply max-w-none text-foreground;
+}
+
+.prose-custom a {
+  @apply text-primary decoration-primary;
+}
+
+.prose-custom strong {
+  @apply font-semibold text-foreground;
+}
+
+.prose-custom h1,
+.prose-custom h2,
+.prose-custom h3,
+.prose-custom h4 {
+  scroll-margin-top: 5rem;
+}
+
+/* 코드 블록 내부 스크롤 */
+pre > div {
+  overflow-x: auto;
 }

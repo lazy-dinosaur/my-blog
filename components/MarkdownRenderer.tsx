@@ -5,8 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Element } from "hast";
+import { Button } from "./ui/button";
+import { Copy, Check } from "lucide-react";
 
 export interface MarkdownRendererProps {
   content: string;
@@ -20,6 +22,17 @@ interface LinkMap {
   [key: string]: string;
 }
 
+function formatDate(dateString: string | undefined): string {
+  if (!dateString) return "날짜 정보 없음";
+
+  try {
+    return new Date(dateString).toLocaleDateString("ko-KR");
+  } catch (error) {
+    console.error("날짜 변환 오류:", error);
+    return "유효하지 않은 날짜";
+  }
+}
+
 export default function MarkdownRenderer({
   content,
   tags,
@@ -28,13 +41,13 @@ export default function MarkdownRenderer({
 }: MarkdownRendererProps) {
   const [linkMap, setLinkMap] = useState<LinkMap>({});
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/link-map.json")
       .then((res) => res.json())
       .then((data) => {
         setLinkMap(data);
-        console.log(data);
         setIsMapLoaded(true);
       })
       .catch((err) => {
@@ -43,12 +56,18 @@ export default function MarkdownRenderer({
       });
   }, []);
 
+  // 코드 복사 함수
+  const handleCopyCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
+
   const processWikiLinks = (text: string) => {
     // 이스케이프된 링크 패턴을 정상 링크로 변환
     let processed = text.replace(
       /\\\[(.*?)\\\]\((.*?)\)/g,
       (_, linkText, href) => {
-        console.log(`이스케이프된 링크 발견: ${linkText} -> ${href}`);
         // 링크 텍스트는 그대로, href는 URI 인코딩
         return `[${linkText}](${encodeURIComponent(href)})`;
       },
@@ -65,7 +84,6 @@ export default function MarkdownRenderer({
 
         // URI 인코딩 적용
         const encodedPath = encodeURIComponent(cleanPath);
-        console.log(`위키링크 변환: ${cleanPath} -> ${encodedPath}`);
 
         // 인코딩된 경로로 마크다운 링크 생성
         return `[${displayName}](${encodedPath})`;
@@ -79,39 +97,39 @@ export default function MarkdownRenderer({
 
   const components = {
     h1: ({ children }: { children?: React.ReactNode }) => (
-      <div>
-        <h1 className="text-4xl font-bold pb-2">{children}</h1>
-        <div className="flex flex-row gap-2 mb-6 text-sm font-bold text-muted-foreground items-center justify-between">
-          {tags && tags.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag, index) => (
-                <Badge key={index} className="px-3 py-1 rounded-full">
-                  #{tag}
-                </Badge>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              <Badge className="px-3 py-1 rounded-full">태그 없음</Badge>
-            </div>
-          )}
-          {(published || modified) && (
-            <div className="flex flex-col">
-              {published && (
-                <span>
-                  Published: {new Date(published).toLocaleDateString()}
-                </span>
-              )}
-              {modified && (
-                <span>Modified: {new Date(modified).toLocaleDateString()}</span>
-              )}
-            </div>
-          )}
+      <div className="mb-8">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-4">{children}</h1>
+
+        {/* 태그 목록 */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {tags?.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              #{tag}
+            </Badge>
+          ))}
+        </div>
+
+        {/* 날짜 정보 */}
+        <div className="flex flex-col sm:flex-row sm:justify-between text-sm text-muted-foreground mb-8 pb-4 border-b">
+          <div>작성일: {formatDate(published)}</div>
+          {modified && <div>수정일: {formatDate(modified)}</div>}
         </div>
       </div>
     ),
     h2: ({ children }: { children?: React.ReactNode }) => (
-      <h2 className="text-3xl font-semibold my-5">{children}</h2>
+      <h2 className="text-2xl lg:text-3xl font-semibold mt-12 mb-6 pb-2 border-b border-border/50">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }: { children?: React.ReactNode }) => (
+      <h3 className="text-xl lg:text-2xl font-semibold mt-8 mb-4">
+        {children}
+      </h3>
+    ),
+    h4: ({ children }: { children?: React.ReactNode }) => (
+      <h4 className="text-lg lg:text-xl font-medium mt-6 mb-3 text-primary">
+        {children}
+      </h4>
     ),
     p: ({ children }: { children?: React.ReactNode }) => {
       const hasBlockElement = React.Children.toArray(children).some((child) => {
@@ -135,7 +153,9 @@ export default function MarkdownRenderer({
       return hasBlockElement ? (
         <div className="my-4">{children}</div>
       ) : (
-        <p className="my-4 leading-relaxed">{children}</p>
+        <p className="my-5 leading-7 text-foreground/90 text-[17px]">
+          {children}
+        </p>
       );
     },
     code({
@@ -150,19 +170,44 @@ export default function MarkdownRenderer({
       children?: React.ReactNode;
     }) {
       const match = /language-(\w+)/.exec(className || "");
+      const code = String(children).replace(/\n$/, "");
+
       return !inline && match ? (
-        <SyntaxHighlighter
-          style={vscDarkPlus}
-          language={match[1]}
-          PreTag="div"
-          className="rounded-lg mb-4"
-          {...props}
-        >
-          {String(children).replace(/\n$/, "")}
-        </SyntaxHighlighter>
+        <div className="relative my-6 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-between bg-primary/10 text-primary px-4 py-2 text-sm font-mono">
+            <span>{match[1]}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={() => handleCopyCode(code)}
+            >
+              {copiedCode === code ? (
+                <Check className="h-4 w-4 mr-1" />
+              ) : (
+                <Copy className="h-4 w-4 mr-1" />
+              )}
+              {copiedCode === code ? "복사됨" : "복사"}
+            </Button>
+          </div>
+          <SyntaxHighlighter
+            style={oneDark}
+            language={match[1]}
+            PreTag="div"
+            customStyle={{
+              margin: 0,
+              padding: "1.5rem",
+              borderRadius: 0,
+              fontSize: "14px",
+            }}
+            {...props}
+          >
+            {code}
+          </SyntaxHighlighter>
+        </div>
       ) : (
         <code
-          className="bg-muted px-2 py-1 rounded text-sm font-mono"
+          className="bg-muted/50 text-primary px-1.5 py-0.5 rounded mx-0.5 font-mono text-[0.9em]"
           {...props}
         >
           {children}
@@ -170,18 +215,23 @@ export default function MarkdownRenderer({
       );
     },
     img: ({ src, alt }: { src?: string; alt?: string }) => (
-      <div className="my-6 relative group">
-        <div className="flex flex-col w-full lg:w-fit items-center justify-center lg:justify-start">
-          <Image
-            src={src || ""}
-            alt={alt || ""}
-            width={1200}
-            height={630}
-            className="rounded-xl shadow-lg transition-all group-hover:shadow-xl h-auto w-[20vw] min-w-80 md:min-w-96"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
+      <div className="my-8 relative group">
+        <div className="flex flex-col w-full items-center justify-center">
+          <div
+            className="relative overflow-hidden rounded-lg shadow-lg transition-all group-hover:shadow-xl border       
+ border-muted/20 w-full max-w-3xl"
+          >
+            <Image
+              src={src || ""}
+              alt={alt || ""}
+              width={1200}
+              height={630}
+              className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
+            />
+          </div>
           {alt && (
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-sm text-muted-foreground mt-3 italic">
               {alt}
             </div>
           )}
@@ -198,7 +248,8 @@ export default function MarkdownRenderer({
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:underline"
+            className="text-primary font-medium hover:underline decoration-primary decoration-2 underline-offset-2        
+ transition-colors"
           >
             {children}
           </a>
@@ -208,7 +259,11 @@ export default function MarkdownRenderer({
       // 홈으로 가는 링크
       if (href === "/") {
         return (
-          <Link href="/" className="text-primary hover:underline">
+          <Link
+            href="/"
+            className="text-primary font-medium hover:underline decoration-primary decoration-2 underline-offset-2        
+ transition-colors"
+          >
             {children}
           </Link>
         );
@@ -216,31 +271,22 @@ export default function MarkdownRenderer({
 
       // 내부 링크 처리
       if (!isMapLoaded)
-        return <span className="text-gray-500">{children}</span>;
+        return <span className="text-muted-foreground">{children}</span>;
 
-      console.log("Processing link:", href);
-
-      // 중요: href 디코딩 추가
+      // 디코딩 및 정규화
       const decodedHref = decodeURIComponent(href);
-      console.log("Decoded href:", decodedHref);
-
-      // 파일 확장자 제거 및 경로 정규화
       const normalizedHref = decodedHref.replace(/\.md$/, "");
       const targetFileName = normalizedHref.split("/").pop();
 
-      console.log("Target filename:", targetFileName);
-
-      // 모든 링크맵을 순회하며 일치하는 파일명 찾기
+      // 링크맵에서 검색
       for (const [key, value] of Object.entries(linkMap)) {
         const srcFileName = key.replace(/\.md$/, "").split("/").pop();
-        console.log(`Comparing: ${srcFileName} with ${targetFileName}`);
-
         if (srcFileName === targetFileName) {
-          console.log(`Match found! ${key} -> ${value}`);
           return (
             <Link
               href={`/posts/${value}`}
-              className="text-primary hover:underline"
+              className="text-primary font-medium hover:underline decoration-primary decoration-2 underline-offset-2      
+ transition-colors"
             >
               {children}
             </Link>
@@ -248,10 +294,10 @@ export default function MarkdownRenderer({
         }
       }
 
-      console.log("No match found for:", href);
+      // 발행되지 않은 문서 링크
       return (
         <span
-          className="text-gray-400 cursor-not-allowed"
+          className="text-muted-foreground cursor-not-allowed border-b border-dashed border-muted-foreground/50"
           title="발행되지 않은 문서"
         >
           {children}
@@ -259,44 +305,48 @@ export default function MarkdownRenderer({
       );
     },
     blockquote: ({ children }: { children?: React.ReactNode }) => (
-      <blockquote className="border-l-4 border-primary pl-4 my-4 italic text-muted-foreground">
-        {children}
+      <blockquote className="border-l-4 border-primary pl-5 my-6 py-1 bg-muted/30 rounded-r-lg">
+        <div className="italic text-foreground/80 font-medium">{children}</div>
       </blockquote>
     ),
+    ul: ({ children }: { children?: React.ReactNode }) => (
+      <ul className="my-5 ml-6 list-disc space-y-2">{children}</ul>
+    ),
+    ol: ({ children }: { children?: React.ReactNode }) => (
+      <ol className="my-5 ml-6 list-decimal space-y-2">{children}</ol>
+    ),
+    li: ({ children }: { children?: React.ReactNode }) => (
+      <li className="leading-7 text-foreground/90">{children}</li>
+    ),
     table: ({ children }: { children?: React.ReactNode }) => (
-      <div className="overflow-x-auto">
-        <table className="w-full my-6 border-collapse">{children}</table>
+      <div className="my-8 overflow-x-auto rounded-lg border border-border">
+        <table className="w-full border-collapse">{children}</table>
       </div>
     ),
+    thead: ({ children }: { children?: React.ReactNode }) => (
+      <thead className="bg-muted">{children}</thead>
+    ),
     th: ({ children }: { children?: React.ReactNode }) => (
-      <th className="bg-accent/50 text-left py-3 px-4 font-semibold border-b">
+      <th className="text-left py-3 px-4 font-semibold border-b border-border">
         {children}
       </th>
     ),
     td: ({ children }: { children?: React.ReactNode }) => (
-      <td className="py-3 px-4 border-b">{children}</td>
+      <td className="py-3 px-4 border-b border-border/50">{children}</td>
     ),
+    hr: () => <hr className="my-8 border-border" />,
     input: ({ checked }: { checked?: boolean }) => (
       <input
         type="checkbox"
         checked={checked}
-        className="w-4 h-4 text-primary rounded border-foreground/20 focus:ring-primary"
+        className="w-4 h-4 text-primary rounded border-muted-foreground/30 focus:ring-primary mr-2"
         readOnly
       />
     ),
   };
 
   return (
-    <div
-      className="prose 
-      prose-lg 
-      dark:prose-invert 
-      prose-headings:font-serif
-      prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary/80
-      prose-img:rounded-xl prose-img:shadow-lg
-      prose-blockquote:border-l-4 prose-blockquote:border-primary
-      max-w-none mx-auto py-5 md:py-10"
-    >
+    <div className="prose-custom">
       <ReactMarkdown components={components}>{processedContent}</ReactMarkdown>
     </div>
   );
