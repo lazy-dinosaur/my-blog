@@ -7,8 +7,9 @@
     "build": "next build && touch out/.nojekyll",
     "start": "next start",
     "lint": "next lint",
-    "sync": "bun run scripts/sync-notes.sh",
-    "deploy": "bun run build && gh-pages -d out -b gh-pages"
+    "sync": "scripts/sync-notes.sh",
+    "deploy": "bun run sync && bun run build && gh-pages -d out -b gh-pages",
+    "serve": "bunx serve@latest out"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
