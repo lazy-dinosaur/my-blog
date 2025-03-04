@@ -13,17 +13,6 @@
         }
 ,
         {
-            "urlPath": "test/test",
-            "title": "test",
-            "summary": "",
-            "image": "",
-            "tags": [],
-            "series": "",                                                                                                                                                                                                                  
-            "createdAt": "2025-03-04 17:54:26",
-            "modifiedAt": "2025-03-04 17:54:37"
-        }
-,
-        {
             "urlPath": "blog/어떻게 블로그를 구현하였나",
             "title": "어떻게 블로그를 구현하였나",
             "summary": "",
