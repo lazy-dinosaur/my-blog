@@ -22,7 +22,13 @@ export const metadata: Metadata = {
   title: "LazyDino Dev Log",
   description: "내가 한걸 티내기 위해 만든 블로그",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+        type: "image/x-icon",
+      }
+    ],
   },
 };
 
@@ -35,6 +41,9 @@ export default async function RootLayout({
 
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
