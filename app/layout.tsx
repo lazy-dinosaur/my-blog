@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         url: "/favicon.ico",
         sizes: "any",
         type: "image/x-icon",
-      }
+      },
     ],
   },
 };
@@ -41,9 +41,6 @@ export default async function RootLayout({
 
   return (
     <html lang="ko" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
