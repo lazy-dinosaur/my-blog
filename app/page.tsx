@@ -5,9 +5,9 @@ export default async function Home() {
   const posts = await getPosts();
 
   return (
-    <div className="space-y-6 sm:space-y-8 md:space-y-10">
+    <div className="space-y-6 sm:space-y-8 md:space-y-10 p-4 sm:p-6 lg:p-8 bg-card min-h-[70vh] rounded-lg">
       {/* 헤더 섹션 */}
-      <section className="space-y-2 sm:space-y-3 md:space-y-4 py-3 sm:py-4 md:py-6">
+      <section className="space-y-2 sm:space-y-3 md:space-y-4 ">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
           LazyDino Dev Log
         </h1>

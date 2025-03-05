@@ -25,7 +25,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   if (!post) {
     return (
-      <div className="bg-card rounded-lg shadow-md p-4 sm:p-6 md:p-8">
+      <article className="bg-card rounded-lg p-4 sm:p-6 lg:p-8 min-h-[70vh]">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
           포스트를 찾을 수 없습니다.
         </h1>
@@ -36,7 +36,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <ArrowLeft className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
           홈으로 돌아가기
         </Link>
-      </div>
+      </article>
     );
   }
 
